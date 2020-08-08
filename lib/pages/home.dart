@@ -12,8 +12,8 @@ class _HomeState extends State<Home> {
   bool isTapped = false;
 
   final cardStyle = ParentStyle()
-    ..animate(300, Curves.decelerate)
-    ..elevation(50)
+    ..animate(200, Curves.decelerate)
+    ..alignment.center()
     ..background.color(Colors.grey[200])
     ..padding(all: 15)
     ..width(double.infinity)
@@ -35,40 +35,136 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
-      body: SafeArea(
-        child: Parent(
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Txt('Click me', style: title,),
-                Txt('So you can see the tap animation.', style: subtitle,
+      backgroundColor: Colors.blueGrey[50],
+      body: Column(
+        children: <Widget>[
+          Parent(
+            child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ClayContainer(
+                      child: Center(
+                        child: ClayText(
+                          'Pic lol',
+                          color: Colors.teal[200],
+                          emboss: true,
+                          depth: 30,
+                        ),
+                      ),
+                      width: 80,
+                      height: 80,
+                      borderRadius: 40,
+                      color: Colors.teal[200],
+                      spread: 10,
+                      curveType: CurveType.convex,
+                    ),
+                    SizedBox(height: 20,),
+                    Txt('Full Name Perhaps', style: TxtStyle()
+                      ..alignment.center()
+                      ..textColor(Colors.white)
+                      ..fontSize(20),),
+                    SizedBox(height: 5,),
+                    Txt('Job Title or Something', style: TxtStyle()
+                      ..alignment.center()
+                      ..textColor(Colors.white60)
+                      ..fontSize(15),),
+                  ],
                 ),
-              ],
             ),
+            style: ParentStyle()
+              ..background.color(Colors.teal[200])
+              ..borderRadius(bottomLeft: 15, bottomRight: 15)
+              ..padding(horizontal: 30, top: 60, bottom: 50)
+              ..width(double.infinity)
+              ..alignment.center(),
           ),
-          gesture: Gestures()
-            ..onTapDown((_) {
-              setState(() {
-                isTapped = true;
-              });
-            })
-            ..onTapUp((_) {
-              setState(() {
-                isTapped = false;
-              });
-            })
-            ..onTapCancel(() {
-              setState(() {
-                isTapped = false;
-              });
-            }),
-          style: cardStyle.clone()
-            ..elevation(isTapped ? 0 : 50)
-            ..scale(isTapped ? 0.95 : 1),
-        ),
+          Txt(
+            'TAP OR HOLD',
+            style: TxtStyle()
+              ..textColor(Colors.black54)
+              ..margin(left: 15, top: 20, right: 15, bottom: 10)
+              ..textAlign.left()
+              ..width(double.infinity)
+              ..letterSpacing(2)
+              ..fontSize(12),
+          ),
+          SettingsItem(Icons.location_on, hex('#8D7AEE'), 'Address', 'Ensure your harvesting address'),
+          SettingsItem(Icons.lock, hex('#F468B7'), 'Privacy', 'System permission change'),
+          SettingsItem(Icons.menu, hex('#FEC85C'), 'General', 'Basic functional settings'),
+          SettingsItem(Icons.notifications, hex('#5FD0D3'), 'Notifications', 'Take over the news in time'),
+          SettingsItem(Icons.question_answer, hex('#BFACAA'), 'Support', 'We are here to help'),
+        ],
       ),
     );
   }
+}
+
+class SettingsItem extends StatefulWidget {
+  SettingsItem(this.icon, this.iconBgColor, this.title, this.description);
+
+  final IconData icon;
+  final Color iconBgColor;
+  final String title;
+  final String description;
+
+  @override
+  _SettingsItemState createState() => _SettingsItemState();
+}
+
+class _SettingsItemState extends State<SettingsItem> {
+  bool pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Parent(
+      style: settingsItemStyle(pressed),
+      gesture: Gestures()
+        ..isTap((isTapped) => setState(() => pressed = isTapped)),
+      child: Row(
+        children: <Widget>[
+          Parent(
+            style: settingsItemIconStyle(widget.iconBgColor),
+            child: Icon(widget.icon, color: Colors.white, size: 20),
+          ),
+          SizedBox(width: 10),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Txt(widget.title, style: itemTitleTextStyle),
+              SizedBox(height: 5),
+              Txt(widget.description, style: itemDescriptionTextStyle),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  final settingsItemStyle = (pressed) => ParentStyle()
+    ..elevation(pressed ? 0 : 30, color: Colors.grey)
+    ..scale(pressed ? 0.95 : 1.0)
+    ..alignmentContent.center()
+    ..height(70)
+    ..margin(vertical: 10, horizontal: 15)
+    ..borderRadius(all: 15)
+    ..background.hex('#ffffff')
+    ..ripple(true)
+    ..animate(250, Curves.easeOutQuart);
+
+  final settingsItemIconStyle = (Color color) => ParentStyle()
+    ..background.color(color)
+    ..margin(left: 15)
+    ..padding(all: 12)
+    ..borderRadius(all: 30);
+
+  final TxtStyle itemTitleTextStyle = TxtStyle()
+    ..bold()
+    ..fontSize(16);
+
+  final TxtStyle itemDescriptionTextStyle = TxtStyle()
+    ..textColor(Colors.black38)
+    ..bold()
+    ..fontSize(12);
 }
