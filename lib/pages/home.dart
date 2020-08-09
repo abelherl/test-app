@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Parent(
                           child: CircleAvatar(
-                            backgroundImage: NetworkImage('https://lh3.googleusercontent.com/o1e3doLK3JtC-F8GiKBuuiAbdeZMqt1oK7P89RBl4hmS73RXw6AlLtuVbTnLzjNEqxU20jdRHrmV-5ym8NV8yoIfXYggi_k1W-rh_JZOk8H6CEWhFOANQbR2tCJByLjoqdhawkxrhxl8h9nCT0DUkOoyHThZ1wdgygg55tiFReRfAW4F2O_RgQEwiEMXVGuf2BFgqDTCRp53YFDK8jAkQcWqd5HBKav8C7V3F_Pzbn93jT1MFVZt9CybX0dS_-hk3o5eVLTQaEZcuUYvz-YHzOSYdgq0d-lrZiXN1NWsRstc8EYUDbW27ti6kmd154IQ20m-FPTo_FPL4zkVxjqvMCn4hnKa0p9_DWvshbDt53YnxEecet0uZu8sMwWop51-wr-z9do7GZM_Qug0Sc6nJgmxkY2lLkhfm30DladaAYulH8ob9Lc2a5gQhzIR7VNhHp4WOYO62ZBbNRg6Y3Izom098bPCj1Pd8yka8QV8p6QRzt9u0zSFUS7Z8ymh9AfJ_GV05SkPSR49mQKh9b-_g7pHblS1hvvhlIFQMDVjSlmDFPLuoeXFlw79z_OYCobwPLg416WWFsdBMmoMWD295I21AaoH6HT1uw9SEOX15SgBLFk2BBH86PiidhuI67Tbcb1wUspXk3wN21Qfma9-60tkY3vGuMUrJ_Xj5zrqsUNbOgDgMoX8Q3480C1AxA=w1080-h1920-no?authuser=0'),
+                            backgroundImage: AssetImage('assets/armie.gif'),
                           ),
                           style: ParentStyle()
                           ..height(100)
@@ -65,8 +65,8 @@ class _HomeState extends State<Home> {
                           ..alignment.center()
                           ..textColor(Colors.white)
                           ..fontSize(30),),
-                        SizedBox(height: 5,),
-                        Txt('I wanna work part-time', style: TxtStyle()
+                        SizedBox(height: 0,),
+                        Txt('Plz help I wanna work part-time', style: TxtStyle()
                           ..alignment.center()
                           ..textColor(Colors.white60)
                           ..fontSize(15),),
