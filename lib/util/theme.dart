@@ -9,14 +9,13 @@ ThemeData mainTheme() {
     return base.copyWith(
       headline5: base.headline5.copyWith(
         fontFamily: fontFamily,
-        fontWeight: FontWeight.w900,
-        fontSize: 17,
+        fontWeight: FontWeight.w700,
+        fontSize: 16,
         color: Colors.black87
       ),
       subtitle1: base.subtitle1.copyWith(
         fontFamily: fontFamily,
-        fontWeight: FontWeight.w500,
-        fontSize: 14,
+        fontSize: 13,
         color: Colors.black38
       )
     );

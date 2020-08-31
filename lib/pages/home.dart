@@ -136,7 +136,7 @@ class _SettingsItemState extends State<SettingsItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(widget.title, style: Theme.of(context).textTheme.headline5),
-              SizedBox(height: 5,),
+              SizedBox(height: 2,),
               Text(widget.description, style: Theme.of(context).textTheme.subtitle1),
             ],
           )
