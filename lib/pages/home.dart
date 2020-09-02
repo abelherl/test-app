@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Parent(
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('assets/armie.gif'),
+//                            backgroundImage: AssetImage('assets/armie.gif'),
                           ),
                           style: ParentStyle()
                           ..height(100)

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:test_app/services/auth_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -17,13 +18,39 @@ class _RegisterState extends State<Register> {
   TextEditingController _birthdate = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   String _formattedDate = DateFormat('dd-MM-yyy').format(DateTime.now());
+  String errorAt = "";
+
+  bool isAllFilled = false;
+  bool isNameFieldError = false;
+
+  void saveData() async {
+    print('Saving data');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_name', _name.text);
+    prefs.setString('user_email', _email.text);
+    prefs.setString('user_address', _address.text);
+    prefs.setString('user_birthdate', _birthdate.text);
+  }
+
+  void loadData() async {
+    print('Loading data');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _name.text = prefs.getString('user_name') ?? "";
+      _email.text = prefs.getString('user_email') ?? "";
+      _address.text = prefs.getString('user_address') ?? "";
+      _birthdate.text = prefs.getString('user_birthdate') ?? "";
+    });
+
+    context.bloc<AuthCubit>().isLoggedIn();
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: _selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1940, 1),
+        lastDate: DateTime.now());
     if (picked != null && picked != _selectedDate)
       setState(() {
         _selectedDate = picked;
@@ -31,7 +58,6 @@ class _RegisterState extends State<Register> {
         _birthdate.text = _formattedDate;
       });
   }
-  var isAllFilled = false;
 
   void checkIfAllFilled() {
     print("CALLED");
@@ -41,17 +67,46 @@ class _RegisterState extends State<Register> {
     else {
       isAllFilled = false;
     }
-
-    final form = _formKey.currentState;
-    form.validate();
+    saveData();
   }
 
-  bool isErrorOnField(FailedState state, String field) {
+  void checkErrors(FailedState state) {
+    var error = "";
+    if (state.field != "name") {
+      if (state.field != "email") {
+        if (state.field != "address") {
+          if (state.field == "birthdate") {
+            error = "birthdate";
+          }
+        }
+        else {
+          error = "address";
+        }
+      }
+      else {
+        error = "email";
+      }
+    }
+    else {
+      error = "name";
+      setState(() {
+        isNameFieldError = true;
+      });
+    }
+
+    setState(() {
+      errorAt = error;
+    });
+
+    print("$error ${state.field}");
+  }
+
+  bool checkErrorOnField(String field) {
     var error = false;
-    if (state.field == field) {
+    if (errorAt == field) {
       error = true;
     }
-    print("$error ${state.field} $field");
+    print("$error because $errorAt ${field}");
     return error;
   }
 
@@ -62,10 +117,18 @@ class _RegisterState extends State<Register> {
       if (form.validate()) {
         print("Validating");
         context.bloc<AuthCubit>().tryRegister(_name.text, _email.text, _address.text, _birthdate.text);
+        checkErrors(context.bloc<AuthCubit>().state);
       } else {
         print('form invalid');
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+    checkIfAllFilled();
   }
 
   @override
@@ -88,25 +151,7 @@ class _RegisterState extends State<Register> {
                   },
                   child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
-                      if (state is SuccessState) {
-                        return Parent(
-                          gesture: Gestures()
-                            ..onTap(() { context.bloc<AuthCubit>().setStateToFailed(); }),
-                          style: ParentStyle()
-                            ..height(40)
-                            ..width(MediaQuery.of(context).size.width)
-                            ..background.color(Colors.grey[400])
-                            ..borderRadius(all: 5),
-                          child: FlatButton(
-                            child: Text(
-                              "LOGGED IN WITH USER NAMED ${state.user.name}",
-                              style: TextStyle(
-                                color: isAllFilled ? Colors.white : Colors.black87,
-                              ),
-                            ),
-                          ),
-                        );
-                      }
+                      if (state is SuccessState) { return SuccessWidget(state: state, isAllFilled: isAllFilled); }
                       if (state is FailedState) {
                         return Column(
                           children: [
@@ -118,11 +163,11 @@ class _RegisterState extends State<Register> {
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                 hintText: "Enter name",
-                                prefixIcon: Icon(Icons.person, color: Colors.grey[400]),
+                                prefixIcon: Icon(Icons.person, color: checkErrorOnField("name") ? Colors.redAccent : Colors.grey[400]),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 0.5,
-                                    color: isErrorOnField(state, "name") ? Colors.redAccent : Colors.grey,
+                                    color: isNameFieldError ? Colors.redAccent : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -135,11 +180,11 @@ class _RegisterState extends State<Register> {
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                 hintText: "Enter email",
-                                prefixIcon: Icon(Icons.alternate_email, color: Colors.grey[400]),
+                                prefixIcon: Icon(Icons.alternate_email, color: checkErrorOnField("email") ? Colors.redAccent : Colors.grey[400]),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 0.5,
-                                    color: isErrorOnField(state, "email") ? Colors.redAccent : Colors.grey,
+                                    color: checkErrorOnField("email") ? Colors.redAccent : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -152,11 +197,11 @@ class _RegisterState extends State<Register> {
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                 hintText: "Enter address",
-                                prefixIcon: Icon(Icons.home, color: Colors.grey[400]),
+                                prefixIcon: Icon(Icons.home, color: checkErrorOnField("address") ? Colors.redAccent : Colors.grey[400]),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 0.5,
-                                    color: isErrorOnField(state, "address") ? Colors.redAccent : Colors.grey,
+                                    color: checkErrorOnField("address") ? Colors.redAccent : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -171,11 +216,11 @@ class _RegisterState extends State<Register> {
                               textAlignVertical: TextAlignVertical.center,
                               decoration: InputDecoration(
                                 hintText: "Enter birthdate",
-                                prefixIcon: Icon(Icons.date_range, color: Colors.grey[400]),
+                                prefixIcon: Icon(Icons.date_range, color: checkErrorOnField("birthdate") ? Colors.redAccent : Colors.grey[400]),
                                 border: UnderlineInputBorder(
                                   borderSide: BorderSide(
                                     width: 0.5,
-                                    color: isErrorOnField(state, "birthdate") ? Colors.redAccent : Colors.grey,
+                                    color: checkErrorOnField("birthdate") ? Colors.redAccent : Colors.grey,
                                   ),
                                 ),
                               ),
@@ -263,7 +308,7 @@ class _RegisterState extends State<Register> {
                             textAlignVertical: TextAlignVertical.center,
                             decoration: InputDecoration(
                               hintText: "Enter birthdate",
-                              prefixIcon: Icon(Icons.home, color: Colors.grey[400]),
+                              prefixIcon: Icon(Icons.date_range, color: Colors.grey[400]),
                               border: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 0.5,
@@ -298,6 +343,55 @@ class _RegisterState extends State<Register> {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SuccessWidget extends StatefulWidget {
+  const SuccessWidget({
+    Key key,
+    @required this.state,
+    @required this.isAllFilled,
+  }) : super(key: key);
+
+  final SuccessState state;
+  final bool isAllFilled;
+
+  @override
+  _SuccessWidgetState createState() => _SuccessWidgetState();
+}
+
+class _SuccessWidgetState extends State<SuccessWidget> {
+
+  void saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('is_logged_in', true);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    saveData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Parent(
+      gesture: Gestures()
+        ..onTap(() { context.bloc<AuthCubit>().logout(); }),
+      style: ParentStyle()
+        ..height(40)
+        ..width(MediaQuery.of(context).size.width)
+        ..background.color(Colors.grey[400])
+        ..borderRadius(all: 5),
+      child: FlatButton(
+        child: Text(
+          "LOGGED IN WITH USER NAMED ${widget.state.user.name}",
+          style: TextStyle(
+            color: widget.isAllFilled ? Colors.white : Colors.black87,
           ),
         ),
       ),

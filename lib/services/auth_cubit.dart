@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_app/services/data_dummy.dart';
 import 'package:test_app/services/user.dart';
 
@@ -57,7 +58,24 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state);
   }
 
-  void setStateToFailed() {
-    emit(FailedState("State changed", ""));
+  void isLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('is_logged_in');
+    AuthState state = AuthInitial();
+
+    if (isLoggedIn) {
+      final name = prefs.getString('user_name');
+      User user = User(name: name,);
+      state = SuccessState(user);
+    }
+
+    emit(state);
+  }
+
+  void logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('is_logged_in', false);
+
+    emit(AuthInitial());
   }
 }
