@@ -69,6 +69,26 @@ class _NumpadState extends State<Numpad> {
 
   @override
   Widget build(BuildContext context) {
+    final placeholderStyle = TxtStyle()
+      ..height(70)
+      ..margin(bottom: spacing)
+      ..padding(horizontal: 25)
+      ..alignmentContent.centerRight()
+      ..background.color(Colors.white)
+      ..fontSize(35)
+      ..textColor(isInitialValue() ? Colors.blueGrey[300] : Colors.black87)
+      ..borderRadius(all: radius)
+      ..bold()
+      ..maxLines(1);
+
+    final buttonStyle = (String input) => TxtStyle()
+      ..background.color(isEnterButton(input) ? Colors.red[900] : Colors.white)
+      ..textColor(isEnterButton(input) ? Colors.white : Colors.black87)
+      ..alignmentContent.center()
+      ..borderRadius(all: radius)
+      ..bold(isEnterButton(input) ? false : true)
+      ..fontSize(isEnterButton(input) ? fontSize + 10 : fontSize);
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
@@ -81,17 +101,7 @@ class _NumpadState extends State<Numpad> {
               children: [
                 Txt(
                   getPlaceholder(),
-                  style: TxtStyle()
-                    ..height(70)
-                    ..margin(bottom: spacing)
-                    ..padding(horizontal: 25)
-                    ..alignmentContent.centerRight()
-                    ..background.color(Colors.white)
-                    ..fontSize(35)
-                    ..textColor(isInitialValue() ? Colors.blueGrey[300] : Colors.black87)
-                    ..borderRadius(all: radius)
-                    ..bold()
-                    ..maxLines(1),
+                  style: placeholderStyle,
                 ),
                 Column(
                   children: [
@@ -122,13 +132,7 @@ class _NumpadState extends State<Numpad> {
                                 inputNumber(input);
                               }
                             })),
-                          style: TxtStyle()
-                            ..background.color(isEnterButton(input) ? Colors.red[900] : Colors.white)
-                            ..textColor(isEnterButton(input) ? Colors.white : Colors.black87)
-                            ..alignmentContent.center()
-                            ..borderRadius(all: radius)
-                            ..bold(isEnterButton(input) ? false : true)
-                            ..fontSize(isEnterButton(input) ? fontSize + 10 : fontSize)
+                          style: buttonStyle(input),
                         );
                       }).toList(),
                     ),
@@ -181,19 +185,3 @@ class _NumpadState extends State<Numpad> {
     );
   }
 }
-
-
-//                      Flexible(
-//                        flex: 1,
-//                          child: Parent(
-//                            gesture: Gestures()
-//                              ..onTap(() => setState(() => value = removeLast(value))),
-//                            style: ParentStyle()
-//                              ..background.color(Colors.white)
-//                              ..padding(all: radius)
-//                              ..alignmentContent.center()
-//                              ..borderRadius(all: radius)
-//                              ..elevation(50),
-//                            child: Icon(Icons.backspace, color: Colors.black87,),
-//                        ),
-//                      ),
