@@ -17,10 +17,10 @@ class _NumpadState extends State<Numpad> {
 
   String initialValue = 'SAR 0';
   String value = 'SAR 0';
-  double width = 280;
+  double width = 350;
 //  double radius = 280 / 20;
   double radius = 0;
-  double fontSize = 280 / 20 + 280 / 40;
+  double fontSize = 350 / 20 + 350 / 40;
 
   final double spacing = 3;
 
@@ -70,7 +70,7 @@ class _NumpadState extends State<Numpad> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[300],
+      backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Center(
           child: Container(
@@ -91,8 +91,7 @@ class _NumpadState extends State<Numpad> {
                     ..textColor(isInitialValue() ? Colors.blueGrey[300] : Colors.black87)
                     ..borderRadius(all: radius)
                     ..bold()
-                    ..maxLines(1)
-                    ..textOverflow(TextOverflow.visible),
+                    ..maxLines(1),
                 ),
                 Column(
                   children: [
@@ -101,7 +100,7 @@ class _NumpadState extends State<Numpad> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: spacing,
                         mainAxisSpacing: spacing,
-                        childAspectRatio: 1.2,
+                        childAspectRatio: 1.3,
                         crossAxisCount: 4,
                       ),
                       children: inputs.map((input) {
