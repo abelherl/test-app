@@ -30,7 +30,42 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state);
   }
 
-  void tryRegister(String name, String email, String address, String birthdate) {
+  void tryLoginEmail(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final _name = prefs.getString('user_name') ?? "";
+    final _email = prefs.getString('user_email') ?? "";
+    final _address = prefs.getString('user_address') ?? "";
+    final _birthdate = prefs.getString('user_birthdate') ?? "";
+    final _password = prefs.getString('user_password') ?? "";
+    AuthState state;
+
+    print('$email $_email');
+    print('$password $_password');
+
+    if (email == _email) {
+      print('email');
+      if (password == _password) {
+        print('password');
+        prefs.setString('login_name', _name);
+        prefs.setString('login_email', _email);
+        prefs.setString('login_address', _address);
+        prefs.setString('login_birthdate', _birthdate);
+        prefs.setString('login_password', _password);
+        prefs.setBool('is_logged_in', true);
+
+        User user = User(name: _name, password: _password);
+
+        state = SuccessState(user);
+      }
+      else {
+        state = FailedState('Wrong password', 'password');
+      }
+    }
+
+    emit(state);
+  }
+
+  void tryRegister(String name, String email, String address, String birthdate, String password) async {
     AuthState state;
     final emailValidator = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
@@ -40,7 +75,9 @@ class AuthCubit extends Cubit<AuthState> {
       if (emailValidator.hasMatch(email)) {
         if (address.isNotEmpty) {
           if (birthdate.isNotEmpty) {
-            state = SuccessState(User(name: name));
+            final user = User(name: name, password: password);
+            state = SuccessState(user);
+            userDummyList.add(user);
           }
         }
         else {
@@ -55,6 +92,8 @@ class AuthCubit extends Cubit<AuthState> {
       state = FailedState("Please enter more than 5 characters", "name");
     }
 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('is_logged_in', false);
     emit(state);
   }
 

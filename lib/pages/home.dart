@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:division/division.dart';
 import 'package:clay_containers/clay_containers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_app/services/auth_cubit.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,6 +10,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var name;
+  var email;
+
+  void getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('login_name') ?? "";
+      email = prefs.get('login_email') ?? "";
+    });
+  }
 
   bool isTapped = false;
 
@@ -33,13 +45,19 @@ class _HomeState extends State<Home> {
     ..textAlign.left();
 
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Container(
           color: Colors.blueGrey[50],
-          height: 1000,
+          height: 800,
           child: Column(
             children: <Widget>[
               Parent(
@@ -59,14 +77,14 @@ class _HomeState extends State<Home> {
                           ..ripple(true),
                         ),
                         SizedBox(height: 10,),
-                        Txt('Armie Bermundo', style: TxtStyle()
+                        Txt(name, style: TxtStyle()
                           ..fontFamily('Poppins')
                           ..fontWeight(FontWeight.w900)
                           ..alignment.center()
                           ..textColor(Colors.white)
                           ..fontSize(30),),
                         SizedBox(height: 0,),
-                        Txt('Plz help I wanna work part-time', style: TxtStyle()
+                        Txt(email, style: TxtStyle()
                           ..alignment.center()
                           ..textColor(Colors.white60)
                           ..fontSize(15),),
@@ -95,6 +113,21 @@ class _HomeState extends State<Home> {
               SettingsItem(Icons.menu, hex('#FEC85C'), 'General', 'Basic functional settings'),
               SettingsItem(Icons.notifications, hex('#5FD0D3'), 'Notifications', 'Take over the news in time'),
               SettingsItem(Icons.question_answer, hex('#BFACAA'), 'Support', 'We are here to help'),
+              Parent(
+                style: ParentStyle()
+                  ..height(40)
+                  ..width(MediaQuery.of(context).size.width)
+                  ..background.color(Colors.red[400])
+                  ..borderRadius(all: 5),
+                child: FlatButton(
+                  child: Text(
+                    "LOGOUT",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),

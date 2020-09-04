@@ -16,6 +16,7 @@ class _RegisterState extends State<Register> {
   TextEditingController _email = TextEditingController();
   TextEditingController _address = TextEditingController();
   TextEditingController _birthdate = TextEditingController();
+  TextEditingController _password = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   String _formattedDate = DateFormat('dd-MM-yyy').format(DateTime.now());
   String errorAt = "";
@@ -26,23 +27,25 @@ class _RegisterState extends State<Register> {
   void saveData() async {
     print('Saving data');
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('is_logged_in', false);
     prefs.setString('user_name', _name.text);
     prefs.setString('user_email', _email.text);
     prefs.setString('user_address', _address.text);
     prefs.setString('user_birthdate', _birthdate.text);
+    prefs.setString('user_password', _password.text);
   }
 
   void loadData() async {
     print('Loading data');
+    context.bloc<AuthCubit>().isLoggedIn();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _name.text = prefs.getString('user_name') ?? "";
       _email.text = prefs.getString('user_email') ?? "";
       _address.text = prefs.getString('user_address') ?? "";
       _birthdate.text = prefs.getString('user_birthdate') ?? "";
+      _password.text = prefs.getString('user_password') ?? "";
     });
-
-    context.bloc<AuthCubit>().isLoggedIn();
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -67,7 +70,6 @@ class _RegisterState extends State<Register> {
     else {
       isAllFilled = false;
     }
-    saveData();
   }
 
   void checkErrors(FailedState state) {
@@ -75,7 +77,12 @@ class _RegisterState extends State<Register> {
     if (state.field != "name") {
       if (state.field != "email") {
         if (state.field != "address") {
-          if (state.field == "birthdate") {
+          if (state.field != "birthdate") {
+            if (state.field == "password") {
+              error = "password";
+            }
+          }
+          else {
             error = "birthdate";
           }
         }
@@ -106,7 +113,7 @@ class _RegisterState extends State<Register> {
     if (errorAt == field) {
       error = true;
     }
-    print("$error because $errorAt ${field}");
+    print("$error because $errorAt $field");
     return error;
   }
 
@@ -116,7 +123,8 @@ class _RegisterState extends State<Register> {
       final form = _formKey.currentState;
       if (form.validate()) {
         print("Validating");
-        context.bloc<AuthCubit>().tryRegister(_name.text, _email.text, _address.text, _birthdate.text);
+        saveData();
+        context.bloc<AuthCubit>().tryRegister(_name.text, _email.text, _address.text, _birthdate.text, _password.text);
         checkErrors(context.bloc<AuthCubit>().state);
       } else {
         print('form invalid');
@@ -127,8 +135,8 @@ class _RegisterState extends State<Register> {
   @override
   void initState() {
     super.initState();
-    loadData();
     checkIfAllFilled();
+    loadData();
   }
 
   @override
@@ -148,10 +156,13 @@ class _RegisterState extends State<Register> {
                         content: Text(state.errorMessage),
                       ));
                     }
+                    if (state is SuccessState) {
+                      Navigator.pushReplacementNamed(context, "/login");
+                    }
                   },
                   child: BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
-                      if (state is SuccessState) { return SuccessWidget(state: state, isAllFilled: isAllFilled); }
+//                      if (state is SuccessState) { return SuccessWidget(state: state, isAllFilled: isAllFilled); }
                       if (state is FailedState) {
                         return Column(
                           children: [
@@ -225,6 +236,22 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                             ),
+                            TextFormField(
+                              controller: _password,
+                              onChanged: (_) => checkIfAllFilled(),
+                              obscureText: true,
+                              style: TextStyle(color: Colors.black,),
+                              textAlignVertical: TextAlignVertical.center,
+                              decoration: InputDecoration(
+                                hintText: "Enter password",
+                                prefixIcon: Icon(Icons.lock, color: Colors.grey[400]),
+                                border: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 0.5,
+                                    )
+                                ),
+                              ),
+                            ),
                             Parent(
                               gesture: Gestures(),
                               style: ParentStyle()
@@ -244,6 +271,10 @@ class _RegisterState extends State<Register> {
                                   ),
                                 ),
                               ),
+                            ),
+                            FlatButton(
+                              child: Text("Login instead"),
+                              onPressed: () => Navigator.pushNamed(context, "/login"),
                             ),
                           ],
                         );
@@ -316,6 +347,22 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
                           ),
+                          TextFormField(
+                            controller: _password,
+                            onChanged: (_) => checkIfAllFilled(),
+                            obscureText: true,
+                            style: TextStyle(color: Colors.black,),
+                            textAlignVertical: TextAlignVertical.center,
+                            decoration: InputDecoration(
+                              hintText: "Enter password",
+                              prefixIcon: Icon(Icons.lock, color: Colors.grey[400]),
+                              border: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 0.5,
+                                  )
+                              ),
+                            ),
+                          ),
                           Parent(
                             gesture: Gestures(),
                             style: ParentStyle()
@@ -335,6 +382,10 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
                             ),
+                          ),
+                          FlatButton(
+                            child: Text("Login instead"),
+                            onPressed: () => Navigator.pushNamed(context, "/login"),
                           ),
                         ],
                       );
@@ -368,7 +419,7 @@ class _SuccessWidgetState extends State<SuccessWidget> {
 
   void saveData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('is_logged_in', true);
+    prefs.setBool('is_logged_in', false);
   }
 
   @override
