@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/components/numpad.dart';
 import 'package:test_app/pages/home.dart';
 import 'package:test_app/pages/login.dart';
+import 'package:test_app/pages/pin.dart';
 import 'package:test_app/pages/register.dart';
 import 'package:test_app/services/auth_cubit.dart';
 import 'util/theme.dart';
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/numpad',
+  initialRoute: '/pin',
   theme: mainTheme(),
   routes: {
     '/': (context) => BlocProvider(
@@ -26,6 +27,10 @@ void main() => runApp(MaterialApp(
     '/numpad': (context) => BlocProvider(
       create: (context) => AuthCubit(),
       child: Numpad(),
+    ),
+    '/pin': (context) => BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Pin(),
     ),
   },
 ));

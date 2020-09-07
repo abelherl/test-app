@@ -127,6 +127,7 @@ class _NumpadState extends State<Numpad> {
                                     );
                                   },
                                 );
+//                                Navigator.pushNamed(context, '/pin');
                               }
                               else {
                                 inputNumber(input);

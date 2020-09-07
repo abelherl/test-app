@@ -26,9 +26,16 @@ const Color memoBlue = const Color(0xFFC7CEEA);
 const Color memoPurple = const Color(0xFFA3B5FD);
 const Color memoBone = const Color(0xFFF5F5F5);
 
-const Color memoBgColor = memoBone;
 const Color memoTitleColor = Colors.black87;
 const Color memoBodyColor = Colors.black54;
+
+const Color aBgColor = const Color(0xFFF7F9FC);
+const Color aDarkTextColor = const Color(0xFF222C45);
+
+const Color aRed = const Color(0xFFD63B31);
+const Color aGreen = const Color(0xFF28AF47);
+
+const Color aShadowColor = const Color(0xFFBBBBBB);
 
 var classTypes = ['Digital', 'Studio', 'Private'];
 var locations = ['Malang', 'Surabaya', 'Bali', 'Bandung', 'Jakarta', 'Banjarmasin'];
