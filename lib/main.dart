@@ -30,7 +30,7 @@ void main() => runApp(MaterialApp(
     ),
     '/pin': (context) => BlocProvider(
       create: (context) => AuthCubit(),
-      child: Pin(),
+      child: Scaffold(body: Pin()),
     ),
   },
 ));

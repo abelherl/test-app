@@ -18,17 +18,25 @@ class _PinState extends State<Pin> {
   final spacing = 20.0;
   final padding = 15.0;
   final fontSize = 300 / 20 + 300 / 20;
+  final dummyPIN = '123321';
+
+  bool isError = false;
 
   var pinBools = [false, false, false, false, false, false];
   var value = '';
 
+  // inputNumber
   void inputNumber(String input) {
     var i = 0;
     var stop = false;
 
+    // updating pinBools for the input indicator
     while (!stop) {
       if (!pinBools[i]) {
-        setState(() => pinBools[i] = true);
+        setState(() {
+          pinBools[i] = true;
+          isError = false;
+        });
         stop = true;
       }
       if (i == pinBools.length - 1) {
@@ -37,28 +45,47 @@ class _PinState extends State<Pin> {
       i++;
     }
 
-    setState(() => value = value + input);
-
-    // run PIN check
-    if (value.length == 6) {
-      final timer = Timer(Duration(milliseconds: 1000), () {
-        setState(() {
-          value = '';
-          pinBools = [false, false, false, false, false, false];
-        });
-      });
+    // stop adding number after 6 digits
+    if (value.length < 6) {
+      setState(() => value = value + input);
+      print('value: $value');
     }
 
-    print('value: $value');
+    // onSubmit PIN after 6 digits are inputted
+    if (value.length == 6) {
+      // Timer(Duration(milliseconds: 1000), () => init());
+      onSubmit();
+    }
+  }
+
+  void onSubmit() {
+    bool valid = (value == dummyPIN);
+    setState(() => isError = !valid);
+    print(isError);
+    Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text(valid ? 'Valid PIN' : 'Invalid PIN'),
+      backgroundColor: valid ? aGreen : aRed,
+      action: SnackBarAction(
+        label: 'DISMISS',
+        textColor: Colors.white,
+        onPressed: () => SnackBarClosedReason.dismiss,
+      ),
+    ));
+    init();
+  }
+
+  // set PIN related data to its initial value
+  void init() {
+    setState(() {
+      value = '';
+      pinBools = [false, false, false, false, false, false];
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      value = '';
-      pinBools = [false, false, false, false, false, false];
-    });
+    init();
   }
 
   @override
@@ -98,16 +125,33 @@ class _PinState extends State<Pin> {
                       padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: pinBools.map((_) {
+                          return Parent(
+                            style: ParentStyle()
+                              ..width(maxWidth / 12)
+                              ..height(maxWidth / 12)
+                              ..borderRadius(all: radius / 2)
+                              ..background.color(Colors.white)
+                              ..border(all: 5, color: isError ? aRed : Colors.transparent,)
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: pinBools.map((boolean) {
-                            return Parent(
-                              style: ParentStyle()
-                                ..width(maxWidth / 12)
-                                ..height(maxWidth / 12)
-                                ..borderRadius(all: radius / 2)
-                                ..background.color(boolean ? aGreen : Colors.white)
-                                ..elevation(3, color: boolean ? aGreen : aShadowColor),
-                            );
-                          }).toList(),
+                          return Parent(
+                            style: ParentStyle()
+                              ..width(maxWidth / 12)
+                              ..height(maxWidth / 12)
+                              ..scale(0.9)
+                              ..borderRadius(all: radius / 2)
+                              ..background.color(boolean ? aGreen : Colors.white)
+                              ..elevation(3, color: boolean ? aGreen : aShadowColor),
+                          );
+                        }).toList(),
                       ),
                     ),
                   ],
@@ -132,7 +176,7 @@ class _PinState extends State<Pin> {
       ..bold(true)
       ..fontFamily('Poppins')
       ..fontSize(fontSize)
-      ..ripple(true);
+      ..ripple(true, splashColor: aGreen, highlightColor: aGreen,);
 
     final numpadStyle = ParentStyle()
       ..maxWidth(maxWidth);
