@@ -13,7 +13,6 @@ import 'package:test_app/services/auth_cubit.dart';
 import 'util/theme.dart';
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/device_configuration',
   theme: mainTheme(),
   routes: {
     '/register': (context) => BlocProvider(
@@ -39,6 +38,6 @@ void main() => runApp(MaterialApp(
     '/starting_cash': (context) => StartingCash(),
     '/onboarding': (context) => Onboarding(),
     '/device_configuration': (context) => DeviceConfiguration(),
-    '/s': (context) => Splash(),
+    '/': (context) => Splash(),
   },
 ));
