@@ -46,7 +46,7 @@ class _HomeState extends State<Home> {
 
   void logout() {
     context.bloc<AuthCubit>().logout();
-    Navigator.pop(context);
+    Navigator.of(context).pushNamedAndRemoveUntil('/get_started', (Route<dynamic> route) => false);
   }
 
   @override
