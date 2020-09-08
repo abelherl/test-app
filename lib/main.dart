@@ -12,10 +12,9 @@ import 'package:test_app/services/auth_cubit.dart';
 import 'util/theme.dart';
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/splash',
   theme: mainTheme(),
   routes: {
-    '/': (context) => BlocProvider(
+    '/register': (context) => BlocProvider(
       create: (context) => AuthCubit(),
       child: Register(),
     ),
@@ -37,6 +36,6 @@ void main() => runApp(MaterialApp(
     ),
     '/starting_cash': (context) => StartingCash(),
     '/get_started': (context) => GetStarted(),
-    '/splash': (context) => Splash(),
+    '/': (context) => Splash(),
   },
 ));

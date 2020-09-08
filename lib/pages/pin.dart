@@ -86,6 +86,8 @@ class _PinState extends State<Pin> {
       Navigator.pushNamed(context, '/starting_cash');
     }
 
+    context.bloc<AuthCubit>().logout();
+
     setState(() {
       value = '';
       pinBools = [false, false, false, false, false, false];
@@ -115,6 +117,7 @@ class _PinState extends State<Pin> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Spacer(),
                 Image(
                   image: AssetImage('assets/images/logo.png'),
                 ),
@@ -164,19 +167,20 @@ class _PinState extends State<Pin> {
                     ),
                   ],
                 ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      'Your PIN is invalid.',
-                      style: TextStyle(
-                        color: isError ? aRed : Colors.transparent,
-                        fontFamily: aFontFamily,
-                        fontWeight: FontWeight.w500,
-                      ),
+                Spacer(),
+                Center(
+                  child: Text(
+                    'Your PIN is invalid.',
+                    style: TextStyle(
+                      color: isError ? aRed : Colors.transparent,
+                      fontFamily: aFontFamily,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
+                Spacer(),
                 buildNumpad(maxWidth, radius),
+                Spacer(),
               ],
             ),
           ),
@@ -195,7 +199,7 @@ class _PinState extends State<Pin> {
       ..bold(true)
       ..fontFamily(aFontFamily)
       ..fontSize(fontSize)
-      ..ripple(true, splashColor: aGreen, highlightColor: aGreen,);
+      ..ripple(true, splashColor: aGreen, highlightColor: Colors.transparent,);
 
     final numpadStyle = ParentStyle()
       ..maxWidth(maxWidth);
@@ -209,6 +213,7 @@ class _PinState extends State<Pin> {
                   style: numpadStyle,
                   child: GridView(
                     padding: EdgeInsets.all(padding),
+                    physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisSpacing: spacing,
