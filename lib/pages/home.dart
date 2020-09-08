@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:division/division.dart';
-import 'package:clay_containers/clay_containers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_app/services/auth_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,8 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var name;
-  var email;
+  var name = '';
+  var email = '';
 
   void getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,6 +43,11 @@ class _HomeState extends State<Home> {
     ..fontSize(13)
     ..textColor(Colors.grey)
     ..textAlign.left();
+
+  void logout() {
+    context.bloc<AuthCubit>().logout();
+    Navigator.pop(context);
+  }
 
   @override
   void initState() {
@@ -120,6 +125,9 @@ class _HomeState extends State<Home> {
                   ..background.color(Colors.red[400])
                   ..borderRadius(all: 5),
                 child: FlatButton(
+                  onPressed: () {
+                    logout();
+                  },
                   child: Text(
                     "LOGOUT",
                     style: TextStyle(

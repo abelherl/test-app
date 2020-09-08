@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/const.dart';
 
 ThemeData mainTheme() {
-  final fontFamily = 'Poppins';
+  final fontFamily = aFontFamily;
   final accentColor = Colors.brown;
   final primaryColor = accentColor[200];
 
@@ -26,6 +27,7 @@ ThemeData mainTheme() {
   return base.copyWith(
     textTheme: _basicTextTheme(base.textTheme),
     primaryColor: primaryColor,
+    backgroundColor: Colors.white,
     accentColor: accentColor
   );
 }

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/const.dart';
+import 'package:test_app/services/auth_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Pin extends StatefulWidget {
   @override
@@ -53,29 +55,37 @@ class _PinState extends State<Pin> {
 
     // onSubmit PIN after 6 digits are inputted
     if (value.length == 6) {
-      // Timer(Duration(milliseconds: 1000), () => init());
-      onSubmit();
+      Timer(Duration(milliseconds: 500), () => onSubmit());
     }
   }
 
   void onSubmit() {
-    bool valid = (value == dummyPIN);
+    var text = 'Invalid PIN';
+    final valid = (value == dummyPIN);
+    final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
+
     setState(() => isError = !valid);
-    print(isError);
-    Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text(valid ? 'Valid PIN' : 'Invalid PIN'),
-      backgroundColor: valid ? aGreen : aRed,
-      action: SnackBarAction(
-        label: 'DISMISS',
-        textColor: Colors.white,
-        onPressed: () => SnackBarClosedReason.dismiss,
-      ),
-    ));
+
+    print(isLoggedIn);
+
+    if(valid) {
+      text = 'Valid PIN';
+      context.bloc<AuthCubit>().login();
+    }
+
+    print('error: $isError $text');
     init();
   }
 
   // set PIN related data to its initial value
   void init() {
+    final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
+    print(isLoggedIn);
+
+    if (isLoggedIn) {
+      Navigator.pushNamed(context, '/starting_cash');
+    }
+
     setState(() {
       value = '';
       pinBools = [false, false, false, false, false, false];
@@ -95,7 +105,7 @@ class _PinState extends State<Pin> {
     final radius = maxWidth / 28;
 
     return Scaffold(
-      backgroundColor: aBgColor,
+      backgroundColor: aBackgroundColor,
       body: SafeArea(
         child: Center(
           child: Container(
@@ -108,14 +118,10 @@ class _PinState extends State<Pin> {
                 Image(
                   image: AssetImage('assets/images/logo.png'),
                 ),
-                Expanded(child: SizedBox(height: 0,)),
+                Spacer(),
                 Text(
                   'Enter Your Login PIN',
-                  style: TextStyle(
-                    color: aDarkTextColor,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: aTitleStyle,
                 ),
                 SizedBox(height: 15,),
                 Stack(
@@ -133,6 +139,7 @@ class _PinState extends State<Pin> {
                               ..borderRadius(all: radius / 2)
                               ..background.color(Colors.white)
                               ..border(all: 5, color: isError ? aRed : Colors.transparent,)
+                              ..animate(300, Curves.easeOutQuart),
                           );
                         }).toList(),
                       ),
@@ -149,14 +156,26 @@ class _PinState extends State<Pin> {
                               ..scale(0.9)
                               ..borderRadius(all: radius / 2)
                               ..background.color(boolean ? aGreen : Colors.white)
-                              ..elevation(3, color: boolean ? aGreen : aShadowColor),
+                              ..elevation(3, color: boolean ? aGreen : aShadowColor)
+                              ..animate(300, Curves.easeOutQuart),
                           );
                         }).toList(),
                       ),
                     ),
                   ],
                 ),
-                Expanded(child: SizedBox(height: 0,)),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Your PIN is invalid.',
+                      style: TextStyle(
+                        color: isError ? aRed : Colors.transparent,
+                        fontFamily: aFontFamily,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
                 buildNumpad(maxWidth, radius),
               ],
             ),
@@ -174,7 +193,7 @@ class _PinState extends State<Pin> {
       ..borderRadius(all: radius)
       ..elevation(5, color: aShadowColor)
       ..bold(true)
-      ..fontFamily('Poppins')
+      ..fontFamily(aFontFamily)
       ..fontSize(fontSize)
       ..ripple(true, splashColor: aGreen, highlightColor: aGreen,);
 
@@ -232,5 +251,17 @@ class _PinState extends State<Pin> {
                 ),
               ],
             );
+  }
+
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(String text, bool valid) {
+    return Scaffold.of(context).showSnackBar(new SnackBar(
+      content: new Text(text),
+      backgroundColor: valid ? aGreen : aRed,
+      action: SnackBarAction(
+        label: 'DISMISS',
+        textColor: Colors.white,
+        onPressed: () => SnackBarClosedReason.dismiss,
+      ),
+    ));
   }
 }

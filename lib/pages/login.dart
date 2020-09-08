@@ -1,11 +1,7 @@
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_app/services/auth_cubit.dart';
-import 'package:test_app/services/counter_bloc.dart';
-import 'package:test_app/services/counter_event.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -78,7 +74,6 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController _password = TextEditingController();
   var isAllFilled = false;
   final _formKey = GlobalKey<FormState>();
-  final _bloc = CounterBloc();
 
   void validate() {
     if (isAllFilled) {
@@ -104,7 +99,10 @@ class _LoginFormState extends State<LoginForm> {
   @override
   void initState() {
     super.initState();
-    context.bloc<AuthCubit>().isLoggedIn();
+    context.bloc<AuthCubit>().login();
+    final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
+    print(isLoggedIn);
+//    context.bloc<AuthCubit>().isLoggedIn();
   }
 
   @override
@@ -114,44 +112,6 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-//          Text(
-//            "Enter phone number",
-//            style: TextStyle(
-//              fontSize: 10,
-//              color: isPhoneNumberFilled ? Colors.grey[800] : Colors.transparent,
-//            ),
-//          ),
-//          Container(
-//            transform: Matrix4.translationValues(0, -5, 0),
-//            height: 70,
-//            child: TextFormField(
-//              controller: _phone,
-//              validator: (text) => text.length < 10 ? "Minimum 10 digit number" : null,
-//              style: TextStyle(color: Colors.black,),
-//              inputFormatters: <TextInputFormatter>[WhitelistingTextInputFormatter.digitsOnly,],
-//              keyboardType: TextInputType.number,
-//              onChanged: (text) { setState(() => isPhoneNumberFilled = text.isNotEmpty ? true : false); },
-//              textAlignVertical: TextAlignVertical.center,
-//              decoration: InputDecoration(
-//                hintText: "Enter phone number",
-//                prefixIcon: Container(
-//                  width: 75,
-//                  child: Row(
-//                    children: [
-//                      Icon(Icons.phone_android, color: Colors.grey[400]),
-//                      SizedBox(width: 5),
-//                      Text("+966", style: TextStyle(fontWeight: FontWeight.bold),),
-//                    ],
-//                  ),
-//                ),
-//                border: UnderlineInputBorder(
-//                    borderSide: BorderSide(
-//                      width: 0.5,
-//                    )
-//                ),
-//              ),
-//            ),
-//          ),
           TextFormField(
             controller: _email,
             onChanged: (_) => checkIfAllFilled(),

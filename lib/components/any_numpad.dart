@@ -1,19 +1,16 @@
-import 'package:clay_containers/clay_containers.dart';
 import 'package:division/division.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:test_app/const.dart';
 
-class Numpad extends StatefulWidget {
+class AnyNumpad extends StatefulWidget {
   @override
-  _NumpadState createState() => _NumpadState();
+  _AnyNumpadState createState() => _AnyNumpadState();
 }
 
-class _NumpadState extends State<Numpad> {
+class _AnyNumpadState extends State<AnyNumpad> {
   final inputs = ['1', '2', '3', '0', '4', '5', '6', '00', '7', '8', '9', '+'];
   final extras = ['C', 'Del'];
-  final formatter = NumberFormat("#,###");
 
   String initialValue = 'SAR 0';
   String value = 'SAR 0';
@@ -45,7 +42,7 @@ class _NumpadState extends State<Numpad> {
   }
 
   String getPlaceholder() {
-    return 'SAR ${formatter.format(double.parse(value.substring(4)))}';
+    return 'SAR ${aFormatter.format(double.parse(value.substring(4)))}';
   }
 
   bool isInitialValue() {

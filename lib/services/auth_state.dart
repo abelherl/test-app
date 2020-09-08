@@ -1,16 +1,21 @@
 part of 'auth_cubit.dart';
 
-abstract class AuthState {
-  const AuthState();
+class AuthState extends Equatable {
+  const AuthState(this.isLoggedIn);
+
+  final bool isLoggedIn;
+
+  @override
+  List<Object> get props => [];
 }
 
 class AuthInitial extends AuthState {
-  const AuthInitial();
+  const AuthInitial() : super(false);
 }
 
 class SuccessState extends AuthState {
   final User user;
-  const SuccessState(this.user);
+  const SuccessState(this.user) : super(true);
 
   @override
   List<Object> get props => [user];
@@ -19,7 +24,7 @@ class SuccessState extends AuthState {
 class FailedState extends AuthState {
   final String errorMessage;
   final String field;
-  FailedState(this.errorMessage, this.field);
+  FailedState(this.errorMessage, this.field) : super(false);
   @override
   List<Object> get props => [errorMessage];
 }

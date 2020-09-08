@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_app/services/data_dummy.dart';
 import 'package:test_app/services/user.dart';
@@ -109,6 +110,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     emit(state);
+  }
+
+  void login() {
+    emit(SuccessState(User()));
   }
 
   void logout() async {
