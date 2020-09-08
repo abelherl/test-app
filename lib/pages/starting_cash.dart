@@ -139,7 +139,7 @@ class _StartingCashState extends State<StartingCash> {
                                     child: Txt(
                                       'Yes',
                                         gesture: Gestures()
-                                          ..onTap(() => Navigator.pushReplacementNamed(context, '/home')),
+                                          ..onTap(() => Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false)),
                                       style: TxtStyle()
                                         ..padding(all: 10)
                                         ..fontFamily(aFontFamily)
