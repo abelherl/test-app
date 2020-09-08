@@ -2,12 +2,12 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/const.dart';
 
-class GetStarted extends StatefulWidget {
+class Onboarding extends StatefulWidget {
   @override
-  _GetStartedState createState() => _GetStartedState();
+  _OnboardingState createState() => _OnboardingState();
 }
 
-class _GetStartedState extends State<GetStarted> {
+class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

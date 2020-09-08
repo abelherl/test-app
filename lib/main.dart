@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/components/any_numpad.dart';
-import 'package:test_app/pages/get_started.dart';
+import 'package:test_app/pages/device_configuration.dart';
+import 'package:test_app/pages/onboarding.dart';
 import 'package:test_app/pages/home.dart';
 import 'package:test_app/pages/login.dart';
 import 'package:test_app/pages/pin.dart';
@@ -35,7 +36,8 @@ void main() => runApp(MaterialApp(
       child: Scaffold(body: Pin()),
     ),
     '/starting_cash': (context) => StartingCash(),
-    '/get_started': (context) => GetStarted(),
+    '/onboarding': (context) => Onboarding(),
+    '/device_configuration': (context) => DeviceConfiguration(),
     '/': (context) => Splash(),
   },
 ));
