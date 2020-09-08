@@ -8,7 +8,7 @@ const Color aDarkTextColor = const Color(0xFF222C45);
 const Color aLightTextColor = const Color(0xFF929EB5);
 const Color aInactiveColor = const Color(0xFFEDF1F7);
 const Color aShadowColor = const Color(0xFFBBBBBB);
-const Color aBorderColor = aLightTextColor;
+const Color aBorderColor = const Color(0xFFDDDDDD);
 
 const Color aRed = const Color(0xFFD63B31);
 const Color aLightRed = const Color(0xFFFCF0EF);
@@ -24,6 +24,14 @@ const aTitleStyle = TextStyle(
 
 const aBodyStyle = TextStyle(
   color: aDarkTextColor,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w400,
+  decoration: TextDecoration.none,
+  fontSize: 14,
+);
+
+const aBodyLightStyle = TextStyle(
+  color: aLightTextColor,
   fontFamily: aFontFamily,
   fontWeight: FontWeight.w400,
   decoration: TextDecoration.none,
@@ -65,5 +73,6 @@ const aHeader5Style = TextStyle(
 const aBorderWidth = 1.0;
 const aBorderRadius = 10.0;
 const aPadding = 15.0;
+const aStandardWidth = 350.0;
 
 final aFormatter = NumberFormat("#,###");

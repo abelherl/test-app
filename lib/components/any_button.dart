@@ -29,7 +29,7 @@ class _AnyButtonState extends State<AnyButton> {
         }),
       style: TxtStyle()
         ..opacity(1)
-        ..width(350)
+        ..width(aStandardWidth)
         ..height(40)
         ..textColor(Colors.white)
         ..alignmentContent.center()

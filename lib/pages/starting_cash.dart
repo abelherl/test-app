@@ -39,7 +39,7 @@ class _StartingCashState extends State<StartingCash> {
                     SizedBox(height: 5,),
                     Parent(
                       style: ParentStyle()
-                        ..width(350)
+                        ..width(aStandardWidth)
                         ..height(40)
                         ..background.color(aBackgroundColor)
                         ..borderRadius(all: aBorderRadius)
@@ -161,7 +161,7 @@ class _StartingCashState extends State<StartingCash> {
                     }),
                   style: TxtStyle()
                     ..opacity(1)
-                    ..width(350)
+                    ..width(aStandardWidth)
                     ..height(40)
                     ..textColor(Colors.white)
                     ..bold()

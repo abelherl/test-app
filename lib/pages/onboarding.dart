@@ -48,7 +48,7 @@ class _OnboardingState extends State<Onboarding> {
                 Txt(
                     'Start Selling with AnyFood',
                     gesture: Gestures()
-                      ..onTap(() => Navigator.pushNamed(context, '/pin')),
+                      ..onTap(() => Navigator.pushReplacementNamed(context, '/device_configuration')),
                     style: TxtStyle()
                       ..width(300)
                       ..padding(all: 15)
