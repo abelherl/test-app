@@ -52,6 +52,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                   SizedBox(height: 5,),
                   Parent(
                     style: ParentStyle()
+                      ..animate(300, Curves.easeOutQuart)
                       ..width(aStandardWidth)
                       ..height(40)
                       ..background.color(aBackgroundColor)
