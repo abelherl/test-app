@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:test_app/services/auth_cubit.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -12,7 +13,18 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(milliseconds: 1500), () => Navigator.pushReplacementNamed(context, '/onboarding'));
+
+    final isLoggedIn = context.bloc<AuthCubit>().state.isLoggedIn;
+    var route = '/onboarding';
+
+    print('Logged in: $isLoggedIn');
+
+    if (isLoggedIn) {
+      print('isLoggedIn called');
+      route = '/home';
+    }
+
+    Timer(Duration(milliseconds: 1500), () => Navigator.pushReplacementNamed(context, route));
   }
 
   @override

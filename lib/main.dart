@@ -38,6 +38,9 @@ void main() => runApp(MaterialApp(
     '/starting_cash': (context) => StartingCash(),
     '/onboarding': (context) => Onboarding(),
     '/device_configuration': (context) => DeviceConfiguration(),
-    '/': (context) => Splash(),
+    '/': (context) => BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Splash(),
+    ),
   },
 ));

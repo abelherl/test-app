@@ -59,6 +59,7 @@ const aHeader4Style = TextStyle(
   fontFamily: aFontFamily,
   fontWeight: FontWeight.w500,
   fontSize: 16,
+  height: 1,
   decoration: TextDecoration.none,
 );
 

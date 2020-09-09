@@ -86,8 +86,6 @@ class _PinState extends State<Pin> {
       Navigator.pushNamed(context, '/starting_cash');
     }
 
-    context.bloc<AuthCubit>().logout();
-
     setState(() {
       value = '';
       pinBools = [false, false, false, false, false, false];

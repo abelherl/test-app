@@ -12,6 +12,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
   var dummyID = 'DUMMY430918';
   bool isFilled = false;
   bool isError = false;
+  bool isRtl = false;
 
   void onSubmit() {
     final valid = (deviceID.toUpperCase() == dummyID);
@@ -47,6 +48,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                     child: Text(
                       'Device ID',
                       style: aTitleStyle,
+                      textAlign: TextAlign.start,
                     ),
                   ),
                   SizedBox(height: 5,),
@@ -62,10 +64,12 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                       '',
                       style: TxtStyle()
                         ..height(double.infinity)
+                        ..width(double.infinity)
                         ..alignmentContent.center()
                         ..padding(left: 15)
                         ..fontFamily(aFontFamily)
                         ..textColor(aDarkTextColor)
+                        ..textAlign.start()
                         ..bold()
                         ..editable(
                             placeholder: 'Type your device ID here'   ,
@@ -95,6 +99,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                       ),
+                      textAlign: TextAlign.start,
                     ),
                   ),
                   SizedBox(height: aPadding * 2,),
@@ -140,43 +145,48 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                       )
                     ],
                   ),
-                  Spacer(flex: 2),
+                  SizedBox(height: aPadding * 2,),
                   Text(
                     'How to Get Device ID',
                     style: aHeader4Style,
                   ),
                   SizedBox(height: 10,),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Txt(
-                        '1',
-                        style: TxtStyle()
-                          ..width(20)
-                          ..height(20)
-                          ..alignmentContent.center()
-                          ..textAlign.center()
-                          ..fontSize(12)
-                          ..textColor(aLightTextColor)
-                          ..borderRadius(all: 15)
-                          ..border(all: 1, color: aLightTextColor,),
-                      ),
-                      SizedBox(width: 10,),
-                      Txt(
-                        'Login to Web Dashboard at ',
-                        style: TxtStyle()
-                          ..fontSize(12)
-                          ..textColor(aLightTextColor)
-                          ..fontFamily(aFontFamily),
-                      ),
-                      Txt(
-                        'https://app.anyfood.com',
-                        style: TxtStyle()
-                          ..fontSize(12)
-                          ..textColor(aRed)
-                          ..fontFamily(aFontFamily),
-                      ),
-                    ],
+                  Container(
+                    width: aStandardWidth + 50,
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      alignment: WrapAlignment.start,
+                      direction: Axis.horizontal,
+                      children: [
+                        Txt(
+                          '1',
+                          style: TxtStyle()
+                            ..width(20)
+                            ..height(20)
+                            ..alignmentContent.center()
+                            ..textAlign.center()
+                            ..fontSize(12)
+                            ..textColor(aLightTextColor)
+                            ..borderRadius(all: 15)
+                            ..border(all: 1, color: aLightTextColor,),
+                        ),
+                        SizedBox(width: 10,),
+                        Txt(
+                          'Login to Web Dashboard at ',
+                          style: TxtStyle()
+                            ..fontSize(12)
+                            ..textColor(aLightTextColor)
+                            ..fontFamily(aFontFamily),
+                        ),
+                        Txt(
+                          'https://app.anyfood.com',
+                          style: TxtStyle()
+                            ..fontSize(12)
+                            ..textColor(aRed)
+                            ..fontFamily(aFontFamily),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: 5,),
                   Row(

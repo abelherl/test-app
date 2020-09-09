@@ -26,12 +26,18 @@ class _OnboardingState extends State<Onboarding> {
                   child: Parent(
                     style: ParentStyle()
                       ..width(600)
-                      ..padding(all: aPadding)
                       ..borderRadius(all: aBorderRadius * 2)
-                      ..background.image(
-                        url: 'https://images.pexels.com/photos/3907161/pexels-photo-3907161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-                        fit: BoxFit.cover,
-                      ),
+                      ..background.color(aRed),
+                    child: Parent(
+                      style: ParentStyle()
+                        ..width(600)
+                        ..padding(all: aPadding)
+                        ..borderRadius(all: aBorderRadius * 2)
+                        ..background.image(
+                          url: 'https://images.pexels.com/photos/3907161/pexels-photo-3907161.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
+                          fit: BoxFit.cover,
+                        ),
+                    ),
                   ),
                 ),
                 SizedBox(height: aPadding * 2,),
@@ -43,6 +49,7 @@ class _OnboardingState extends State<Onboarding> {
                 Text(
                   'Grow your business effortlessly with the POS for simplicity',
                   style: aHeader5Style,
+                  textAlign: TextAlign.center,
                 ),
                 Spacer(flex: 1),
                 Txt(
