@@ -38,6 +38,14 @@ const aBodyLightStyle = TextStyle(
   fontSize: 14,
 );
 
+const aErrorStyle = TextStyle(
+  color: aRed,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w400,
+  decoration: TextDecoration.none,
+  fontSize: 14,
+);
+
 const aHeader2Style = TextStyle(
   color: aDarkTextColor,
   fontFamily: aFontFamily,
