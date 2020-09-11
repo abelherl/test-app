@@ -29,10 +29,11 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: EdgeInsets.all(aPadding),
             child: Container(
               width: aStandardWidth + 50,
+              height: MediaQuery.of(context).size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -153,10 +154,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                   SizedBox(height: 10,),
                   Container(
                     width: aStandardWidth + 50,
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      alignment: WrapAlignment.start,
-                      direction: Axis.horizontal,
+                    child: Row(
                       children: [
                         Txt(
                           '1',
@@ -172,7 +170,7 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                         ),
                         SizedBox(width: 10,),
                         Txt(
-                          'Login to Web Dashboard at ',
+                          'Login at ',
                           style: TxtStyle()
                             ..fontSize(12)
                             ..textColor(aLightTextColor)
@@ -183,7 +181,8 @@ class _DeviceConfigurationState extends State<DeviceConfiguration> {
                           style: TxtStyle()
                             ..fontSize(12)
                             ..textColor(aRed)
-                            ..fontFamily(aFontFamily),
+                            ..fontFamily(aFontFamily)
+                            ..textOverflow(TextOverflow.fade),
                         ),
                       ],
                     ),

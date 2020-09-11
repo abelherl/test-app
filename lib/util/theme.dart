@@ -3,8 +3,8 @@ import 'package:test_app/const.dart';
 
 ThemeData mainTheme() {
   final fontFamily = aFontFamily;
-  final accentColor = Colors.brown;
-  final primaryColor = accentColor[200];
+  final accentColor = aRed;
+  final primaryColor = aRed;
 
   TextTheme _basicTextTheme(TextTheme base) {
     return base.copyWith(

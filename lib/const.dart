@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+final deviceSize = (BuildContext context) => MediaQuery.of(context).size;
+
 const aFontFamily = 'Poppins';
 
 const Color aBackgroundColor = const Color(0xFFF7F9FC);
 const Color aDarkTextColor = const Color(0xFF222C45);
-const Color aLightTextColor = const Color(0xFF929EB5);
+//const Color aLightTextColor = const Color(0xFF929EB5);
+const Color aLightTextColor = const Color(0xFF8F9BB3);
 const Color aInactiveColor = const Color(0xFFEDF1F7);
 const Color aShadowColor = const Color(0xFFBBBBBB);
 const Color aBorderColor = const Color(0xFFDDDDDD);

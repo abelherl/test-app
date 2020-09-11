@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/components/any_menu_grid.dart';
-import 'package:test_app/components/any_menu_list.dart';
 import 'package:test_app/components/any_numpad.dart';
+import 'package:test_app/pages/dashboard.dart';
 import 'package:test_app/pages/device_configuration.dart';
 import 'package:test_app/pages/onboarding.dart';
-import 'package:test_app/pages/home.dart';
 import 'package:test_app/pages/login.dart';
 import 'package:test_app/pages/pin.dart';
 import 'package:test_app/pages/register.dart';
@@ -14,7 +12,8 @@ import 'package:test_app/pages/starting_cash.dart';
 import 'package:test_app/services/auth_cubit.dart';
 import 'util/theme.dart';
 
-void main() => runApp(MaterialApp(
+void main() {
+  runApp(MaterialApp(
   theme: mainTheme(),
   routes: {
     '/register': (context) => BlocProvider(
@@ -27,7 +26,7 @@ void main() => runApp(MaterialApp(
     ),
     '/home': (context) => BlocProvider(
       create: (context) => AuthCubit(),
-      child: Home(),
+      child: Dashboard(),
     ),
     '/numpad': (context) => BlocProvider(
       create: (context) => AuthCubit(),
@@ -42,7 +41,8 @@ void main() => runApp(MaterialApp(
     '/device_configuration': (context) => DeviceConfiguration(),
     '/': (context) => BlocProvider(
       create: (context) => AuthCubit(),
-      child: AnyMenuList(),
+      child: Splash(),
     ),
   },
 ));
+}

@@ -23,6 +23,7 @@ class _PinState extends State<Pin> {
   final dummyPIN = '123321';
 
   bool isError = false;
+  bool changePage = false;
 
   var pinBools = [false, false, false, false, false, false];
   var value = '';
@@ -32,30 +33,30 @@ class _PinState extends State<Pin> {
     var i = 0;
     var stop = false;
 
-    // updating pinBools for the input indicator
-    while (!stop) {
-      if (!pinBools[i]) {
-        setState(() {
-          pinBools[i] = true;
-          isError = false;
-        });
-        stop = true;
-      }
-      if (i == pinBools.length - 1) {
-        stop = true;
-      }
-      i++;
-    }
-
-    // stop adding number after 6 digits
     if (value.length < 6) {
+      // updating pinBools for the input indicator
+      while (!stop) {
+        if (!pinBools[i]) {
+          setState(() {
+            pinBools[i] = true;
+            isError = false;
+          });
+          stop = true;
+        }
+        if (i == pinBools.length - 1) {
+          stop = true;
+        }
+        i++;
+      }
+
+      // stop adding number after 6 digits
       setState(() => value = value + input);
       print('value: $value');
-    }
 
-    // onSubmit PIN after 6 digits are inputted
-    if (value.length == 6) {
-      Timer(Duration(milliseconds: 500), () => onSubmit());
+      // onSubmit PIN after 6 digits are inputted
+      if (value.length == 6) {
+        Timer(Duration(milliseconds: 500), () => onSubmit());
+      }
     }
   }
 
@@ -140,7 +141,7 @@ class _PinState extends State<Pin> {
                               ..borderRadius(all: radius / 2)
                               ..background.color(Colors.white)
                               ..border(all: 5, color: isError ? aRed : Colors.transparent,)
-                              ..animate(300, Curves.easeOutQuart),
+                              ..animate(400, Curves.easeOutQuart),
                           );
                         }).toList(),
                       ),
@@ -158,7 +159,7 @@ class _PinState extends State<Pin> {
                               ..borderRadius(all: radius / 2)
                               ..background.color(boolean ? aGreen : Colors.white)
                               ..elevation(3, color: boolean ? aGreen : aShadowColor)
-                              ..animate(300, Curves.easeOutQuart),
+                              ..animate(400, Curves.easeOutQuart),
                           );
                         }).toList(),
                       ),
