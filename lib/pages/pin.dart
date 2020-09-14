@@ -28,6 +28,51 @@ class _PinState extends State<Pin> {
   var pinBools = [false, false, false, false, false, false];
   var value = '';
 
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final maxWidth = 270.0;
+    final radius = maxWidth / 28;
+
+    return Scaffold(
+        backgroundColor: aBackgroundColor,
+        body: SafeArea(
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 15),
+              width: maxWidth,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Spacer(),
+                  Image(
+                    image: AssetImage('assets/images/logo.png'),
+                  ),
+                  Spacer(),
+                  Text(
+                    'Enter Your Login PIN',
+                    style: aTitleStyle,
+                  ),
+                  SizedBox(height: 15),
+                  _buildPinIndicator(maxWidth, radius),
+                  Spacer(),
+                  _buildErrorText(),
+                  Spacer(),
+                  _buildNumpad(maxWidth, radius),
+                  Spacer(),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
   // inputNumber
   void inputNumber(String input) {
     var i = 0;
@@ -69,7 +114,7 @@ class _PinState extends State<Pin> {
 
     print(isLoggedIn);
 
-    if(valid) {
+    if (valid) {
       text = 'Valid PIN';
       context.bloc<AuthCubit>().login();
     }
@@ -93,102 +138,66 @@ class _PinState extends State<Pin> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    init();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final maxWidth = size.height / 2.3;
-    final radius = maxWidth / 28;
-
-    return Scaffold(
-      backgroundColor: aBackgroundColor,
-      body: SafeArea(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 15),
-            width: maxWidth,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Spacer(),
-                Image(
-                  image: AssetImage('assets/images/logo.png'),
-                ),
-                Spacer(),
-                Text(
-                  'Enter Your Login PIN',
-                  style: aTitleStyle,
-                ),
-                SizedBox(height: 15,),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: pinBools.map((_) {
-                          return Parent(
-                            style: ParentStyle()
-                              ..width(maxWidth / 12)
-                              ..height(maxWidth / 12)
-                              ..borderRadius(all: radius / 2)
-                              ..background.color(Colors.white)
-                              ..border(all: 5, color: isError ? aRed : Colors.transparent,)
-                              ..animate(400, Curves.easeOutQuart),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: pinBools.map((boolean) {
-                          return Parent(
-                            style: ParentStyle()
-                              ..width(maxWidth / 12)
-                              ..height(maxWidth / 12)
-                              ..scale(0.9)
-                              ..borderRadius(all: radius / 2)
-                              ..background.color(boolean ? aGreen : Colors.white)
-                              ..elevation(3, color: boolean ? aGreen : aShadowColor)
-                              ..animate(400, Curves.easeOutQuart),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ),
-                Spacer(),
-                Center(
-                  child: Text(
-                    'Your PIN is invalid.',
-                    style: TextStyle(
-                      color: isError ? aRed : Colors.transparent,
-                      fontFamily: aFontFamily,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                Spacer(),
-                buildNumpad(maxWidth, radius),
-                Spacer(),
-              ],
-            ),
-          ),
+  Center _buildErrorText() {
+    return Center(
+      child: Text(
+        'Your PIN is invalid.',
+        style: TextStyle(
+          color: isError ? aRed : Colors.transparent,
+          fontFamily: aFontFamily,
+          fontWeight: FontWeight.w500,
         ),
-      )
+      ),
     );
   }
 
-  Column buildNumpad(double maxWidth, double radius) {
+  Stack _buildPinIndicator(double maxWidth, double radius) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: pinBools.map((_) {
+              return Parent(
+                style: ParentStyle()
+                  ..width(maxWidth / 12)
+                  ..height(maxWidth / 12)
+                  ..borderRadius(all: radius / 2)
+                  ..background.color(Colors.white)
+                  ..border(
+                    all: 5,
+                    color: isError ? aRed : Colors.transparent,
+                  )
+                  ..animate(400, Curves.easeOutQuart),
+              );
+            }).toList(),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: maxWidth / 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: pinBools.map((boolean) {
+              return Parent(
+                style: ParentStyle()
+                  ..width(maxWidth / 12)
+                  ..height(maxWidth / 12)
+                  ..scale(0.9)
+                  ..borderRadius(all: radius / 2)
+                  ..background.color(boolean ? aGreen : Colors.white)
+                  ..elevation(3, color: boolean ? aGreen : aShadowColor)
+                  ..animate(400, Curves.easeOutQuart),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Column _buildNumpad(double maxWidth, double radius) {
     final buttonStyle = (String input) => TxtStyle()
       ..background.color(Colors.white)
       ..textColor(aDarkTextColor)
@@ -198,66 +207,68 @@ class _PinState extends State<Pin> {
       ..bold(true)
       ..fontFamily(aFontFamily)
       ..fontSize(fontSize)
-      ..ripple(true, splashColor: aGreen, highlightColor: Colors.transparent,);
+      ..ripple(
+        true,
+        splashColor: aGreen,
+        highlightColor: Colors.transparent,
+      );
 
-    final numpadStyle = ParentStyle()
-      ..maxWidth(maxWidth);
+    final numpadStyle = ParentStyle()..maxWidth(maxWidth);
 
-    final zeroNumpadStyle = ParentStyle()
-      ..maxWidth(maxWidth / 3 + padding / 2);
+    final zeroNumpadStyle = ParentStyle()..maxWidth(maxWidth / 3 + padding / 2);
 
     return Column(
+      children: [
+        Parent(
+          style: numpadStyle,
+          child: GridView(
+            padding: EdgeInsets.all(padding),
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: spacing,
+              mainAxisSpacing: spacing,
+              crossAxisCount: 3,
+            ),
+            children: inputs.map((input) {
+              return Txt(
+                input,
+                gesture: Gestures()
+                  ..onTap(() => setState(() {
+                        inputNumber(input);
+                      })),
+                style: buttonStyle(input),
+              );
+            }).toList(),
+          ),
+        ),
+        Parent(
+          style: zeroNumpadStyle,
+          child: GridView(
+              padding: EdgeInsets.fromLTRB(15, spacing - padding, 15, 15),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: spacing,
+                mainAxisSpacing: spacing,
+                crossAxisCount: 1,
+              ),
               children: [
-                Parent(
-                  style: numpadStyle,
-                  child: GridView(
-                    padding: EdgeInsets.all(padding),
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: spacing,
-                      mainAxisSpacing: spacing,
-                      crossAxisCount: 3,
-                    ),
-                    children: inputs.map((input) {
-                      return Txt(
-                        input,
-                        gesture: Gestures()
-                          ..onTap(() => setState(() {
-                            inputNumber(input);
-                          })),
-                        style: buttonStyle(input),
-                      );
-                    }).toList(),
-                  ),
+                Txt(
+                  '0',
+                  gesture: Gestures()
+                    ..onTap(() => setState(() {
+                          inputNumber('0');
+                        })),
+                  style: buttonStyle('0'),
                 ),
-                Parent(
-                  style: zeroNumpadStyle,
-                  child: GridView(
-                    padding: EdgeInsets.fromLTRB(15, spacing - padding, 15, 15),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: spacing,
-                      mainAxisSpacing: spacing,
-                      crossAxisCount: 1,
-                    ),
-                    children: [
-                      Txt(
-                        '0',
-                        gesture: Gestures()
-                          ..onTap(() => setState(() {
-                            inputNumber('0');
-                          })),
-                        style: buttonStyle('0'),
-                      ),
-                    ]
-                  ),
-                ),
-              ],
-            );
+              ]),
+        ),
+      ],
+    );
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(String text, bool valid) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
+      String text, bool valid) {
     return Scaffold.of(context).showSnackBar(new SnackBar(
       content: new Text(text),
       backgroundColor: valid ? aGreen : aRed,
