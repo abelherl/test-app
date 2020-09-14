@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_app/components/any_billing.dart';
 import 'package:test_app/components/any_numpad.dart';
 import 'package:test_app/pages/dashboard.dart';
 import 'package:test_app/pages/device_configuration.dart';
@@ -41,7 +42,7 @@ void main() {
     '/device_configuration': (context) => DeviceConfiguration(),
     '/': (context) => BlocProvider(
       create: (context) => AuthCubit(),
-      child: Splash(),
+      child: AnyBilling(),
     ),
   },
 ));

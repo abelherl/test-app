@@ -33,8 +33,32 @@ const aBodyStyle = TextStyle(
   fontSize: 14,
 );
 
+const aBoldBodyStyle = TextStyle(
+  color: aDarkTextColor,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w500,
+  decoration: TextDecoration.none,
+  fontSize: 14,
+);
+
 const aBodyLightStyle = TextStyle(
   color: aLightTextColor,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w400,
+  decoration: TextDecoration.none,
+  fontSize: 14,
+);
+
+const aBoldBodyLightStyle = TextStyle(
+  color: aLightTextColor,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w500,
+  decoration: TextDecoration.none,
+  fontSize: 14,
+);
+
+const aButtonTextStyle = TextStyle(
+  color: Colors.white,
   fontFamily: aFontFamily,
   fontWeight: FontWeight.w400,
   decoration: TextDecoration.none,

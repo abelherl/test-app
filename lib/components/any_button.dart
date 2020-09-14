@@ -19,23 +19,27 @@ class _AnyButtonState extends State<AnyButton> {
   final Color color;
   final double width;
   final bool enabled;
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
     return Txt(
       title,
       gesture: Gestures()
+        ..isTap((isTapped) => setState(() => pressed = isTapped))
         ..onTap(() {
         }),
       style: TxtStyle()
         ..opacity(1)
         ..width(aStandardWidth)
-        ..height(40)
+        ..padding(all: aPadding)
         ..textColor(Colors.white)
         ..alignmentContent.center()
         ..borderRadius(all: aBorderRadius)
         ..background.color(color)
-        ..elevation(5, color: color)
+        ..elevation(pressed ? 0 : 5, color: color)
+        ..scale(pressed ? 0.95 : 1)
+        ..animate(400, Curves.easeOutQuart)
         ..ripple(true),
     );
   }
