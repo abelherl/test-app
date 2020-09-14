@@ -28,93 +28,9 @@ class _AnyBillingState extends State<AnyBilling> {
       height: double.maxFinite,
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Parent(
-                  gesture: Gestures()
-                    ..onTap(() {
-                    }),
-                  style: ParentStyle()
-                    ..padding(all: aPadding-5)
-                    ..alignmentContent.center()
-                    ..borderRadius(all: aBorderRadius)
-                    ..background.color(aRed)
-                    ..ripple(true),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_circle_outline, color: Colors.white, size: 20,),
-                      SizedBox(width: 5),
-                      Text(
-                        'Add Customer',
-                        style: aButtonTextStyle,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: aPadding),
-              Expanded(
-                child: Parent(
-                  gesture: Gestures()
-                    ..onTap(() {
-                    }),
-                  style: ParentStyle()
-                    ..padding(all: aPadding-5)
-                    ..alignmentContent.center()
-                    ..borderRadius(all: aBorderRadius)
-                    ..border(all: 1, color: aBorderColor)
-                    ..background.color(aInactiveColor)
-                    ..ripple(true),
-                  child: Stack(
-                    children: [
-                      SizedBox(width: double.infinity),
-                      Center(
-                        child: Text(
-                          'Dine In',
-                          style: aBodyLightStyle,
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        child: Icon(
-                          Icons.keyboard_arrow_down,
-                          color: aLightTextColor,
-                          size: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+          _buildBillingHeader(),
           SizedBox(height: aPadding),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                billing.id,
-                style: aHeader2Style,
-              ),
-              Txt(
-                billing.isPaid ? 'Paid' : 'Unpaid',
-                style: TxtStyle()
-                  ..width(100)
-                  ..height(30)
-                  ..alignmentContent.center()
-                  ..fontFamily(aFontFamily)
-                  ..fontSize(14)
-                  ..fontWeight(FontWeight.w400)
-                  ..textColor(billing.isPaid ? aGreen : aRed)
-                  ..textDecoration(TextDecoration.none)
-                  ..background.color(billing.isPaid ? aLightGreen : aLightRed)
-                  ..borderRadius(all: 100),
-              )
-            ],
-          ),
+          _buildBillingInfo(billing),
           SizedBox(height: aPadding),
           Expanded(
             child: ListView(
@@ -126,19 +42,7 @@ class _AnyBillingState extends State<AnyBilling> {
             color: aBorderColor,
           ),
           SizedBox(height: aPadding - 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Sub Total',
-                style: aBodyLightStyle,
-              ),
-              Text(
-                'SAR ${billing.subtotal}',
-                style: aBoldBodyStyle,
-              ),
-            ],
-          ),
+          _buildBillingPayment('Sub Total', billing.subtotal),
           SizedBox(height: aPadding),
           Row(
             children: [
@@ -148,111 +52,223 @@ class _AnyBillingState extends State<AnyBilling> {
                 textAlign: TextAlign.start,
               ),
               SizedBox(width: 5),
-              Icon(Icons.add_circle_outline, color: aRed, size: 20,),
+              Icon(
+                Icons.add_circle_outline,
+                color: aRed,
+                size: 20,
+              ),
             ],
           ),
           SizedBox(height: aPadding),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Store Charge',
-                style: aBodyLightStyle,
-              ),
-              Text(
-                'SAR 100',
-                style: aBoldBodyStyle,
-              ),
-            ],
-          ),
+          _buildBillingPayment('Store Charge', '100'),
           SizedBox(height: aPadding * 2),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Parent(
-                  gesture: Gestures()
-                    ..onTap(() {
-                    }),
-                  style: ParentStyle()
-                    ..padding(all: aPadding-5)
-                    ..alignmentContent.center()
-                    ..borderRadius(all: aBorderRadius)
-                    ..border(all: 1, color: aBorderColor)
-                    ..background.color(aInactiveColor)
-                    ..ripple(true),
-                  child: Text(
-                    'Save Bill',
-                    style: aBodyLightStyle,
-                  ),
-                ),
-              ),
-              SizedBox(width: aPadding),
-              Expanded(
-                child: Parent(
-                  gesture: Gestures()
-                    ..onTap(() {
-                    }),
-                  style: ParentStyle()
-                    ..padding(all: aPadding-5)
-                    ..alignmentContent.center()
-                    ..borderRadius(all: aBorderRadius)
-                    ..border(all: 1, color: aBorderColor)
-                    ..background.color(aInactiveColor)
-                    ..ripple(true),
-                  child: Text(
-                    'Print Bill',
-                    style: aBodyLightStyle,
-                  ),
-                ),
-              ),
-            ],
+          _buildBillingSaveAndPrint(),
+          SizedBox(height: aPadding),
+          _buildBillingSplitBill(),
+          SizedBox(height: aPadding),
+          AnyButton(
+            title: 'Pay SAR ${billing.grandtotal}',
+            color: aRed,
+            width: aStandardWidth,
+            enabled: true,
           ),
           SizedBox(height: aPadding),
-          Parent(
-            gesture: Gestures()
-              ..onTap(() {
-              }),
+          Divider(
+            thickness: 1,
+            color: aBorderColor,
+          ),
+          _buildBillingCustomAmount(),
+        ],
+      ),
+    );
+  }
+
+  Parent _buildBillingCustomAmount() {
+    return Parent(
+      gesture: Gestures()..onTap(() {}),
+      style: ParentStyle()
+        ..margin(all: aPadding - 10, bottom: 0)
+        ..alignmentContent.center(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.apps,
+            color: aLightTextColor,
+          ),
+          SizedBox(width: 5),
+          Text(
+            'Custom Amount',
+            style: aBodyLightStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Parent _buildBillingSplitBill() {
+    return Parent(
+      gesture: Gestures()..onTap(() {}),
+      style: ParentStyle()
+        ..padding(all: aPadding - 5)
+        ..alignmentContent.center()
+        ..borderRadius(all: aBorderRadius)
+        ..border(all: 1, color: aBorderColor)
+        ..background.color(aInactiveColor)
+        ..ripple(true),
+      child: Text(
+        'Split Bill',
+        style: aBodyLightStyle,
+      ),
+    );
+  }
+
+  Row _buildBillingSaveAndPrint() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Parent(
+            gesture: Gestures()..onTap(() {}),
             style: ParentStyle()
-              ..padding(all: aPadding-5)
+              ..padding(all: aPadding - 5)
               ..alignmentContent.center()
               ..borderRadius(all: aBorderRadius)
               ..border(all: 1, color: aBorderColor)
               ..background.color(aInactiveColor)
               ..ripple(true),
             child: Text(
-              'Split Bill',
+              'Save Bill',
               style: aBodyLightStyle,
             ),
           ),
-          SizedBox(height: aPadding),
-          AnyButton(title: 'Pay SAR ${billing.grandtotal}', color: aRed, width: aStandardWidth, enabled: true,),
-          SizedBox(height: aPadding),
-          Divider(
-            thickness: 1,
-            color: aBorderColor,
-          ),
-          Parent(
-            gesture: Gestures()
-              ..onTap(() {
-              }),
+        ),
+        SizedBox(width: aPadding),
+        Expanded(
+          child: Parent(
+            gesture: Gestures()..onTap(() {}),
             style: ParentStyle()
-              ..margin(all: aPadding-10, bottom: 0)
-              ..alignmentContent.center(),
+              ..padding(all: aPadding - 5)
+              ..alignmentContent.center()
+              ..borderRadius(all: aBorderRadius)
+              ..border(all: 1, color: aBorderColor)
+              ..background.color(aInactiveColor)
+              ..ripple(true),
+            child: Text(
+              'Print Bill',
+              style: aBodyLightStyle,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row _buildBillingPayment(String title, String amount) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: aBodyLightStyle,
+        ),
+        Text(
+          'SAR $amount',
+          style: aBoldBodyStyle,
+        ),
+      ],
+    );
+  }
+
+  Row _buildBillingInfo(AnyBillingItem billing) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          billing.id,
+          style: aHeader2Style,
+        ),
+        Txt(
+          billing.isPaid ? 'Paid' : 'Unpaid',
+          style: TxtStyle()
+            ..width(100)
+            ..height(30)
+            ..alignmentContent.center()
+            ..fontFamily(aFontFamily)
+            ..fontSize(14)
+            ..fontWeight(FontWeight.w400)
+            ..textColor(billing.isPaid ? aGreen : aRed)
+            ..textDecoration(TextDecoration.none)
+            ..background.color(billing.isPaid ? aLightGreen : aLightRed)
+            ..borderRadius(all: 100),
+        )
+      ],
+    );
+  }
+
+  Row _buildBillingHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Parent(
+            gesture: Gestures()..onTap(() {}),
+            style: ParentStyle()
+              ..padding(all: aPadding - 5)
+              ..alignmentContent.center()
+              ..borderRadius(all: aBorderRadius)
+              ..background.color(aRed)
+              ..ripple(true),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.apps, color: aLightTextColor,),
+                Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 SizedBox(width: 5),
                 Text(
-                  'Custom Amount',
-                  style: aBodyLightStyle,
+                  'Add Customer',
+                  style: aButtonTextStyle,
                 ),
               ],
             ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(width: aPadding),
+        Expanded(
+          child: Parent(
+            gesture: Gestures()..onTap(() {}),
+            style: ParentStyle()
+              ..padding(all: aPadding - 5)
+              ..alignmentContent.center()
+              ..borderRadius(all: aBorderRadius)
+              ..border(all: 1, color: aBorderColor)
+              ..background.color(aInactiveColor)
+              ..ripple(true),
+            child: Stack(
+              children: [
+                SizedBox(width: double.infinity),
+                Center(
+                  child: Text(
+                    'Dine In',
+                    style: aBodyLightStyle,
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: aLightTextColor,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
