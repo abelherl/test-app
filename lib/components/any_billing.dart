@@ -3,6 +3,7 @@ import 'package:division/division.dart';
 import 'package:test_app/components/any_billing_child.dart';
 import 'package:test_app/components/any_button.dart';
 import 'package:test_app/const.dart';
+import 'package:test_app/models/any_billing_child_item.dart';
 import 'package:test_app/models/any_billing_item.dart';
 import 'package:test_app/services/data_dummy.dart';
 
@@ -13,15 +14,23 @@ class AnyBilling extends StatefulWidget {
 
 class _AnyBillingState extends State<AnyBilling> {
   bool hidePayment = true;
+  bool pressed = false;
   var billing = AnyBillingItem(
     id: 'ID-FF78',
     customer: '',
     orderType: 'Dine In',
-    subtotal: '300',
-    grandtotal: '400',
+    subtotal: 300,
+    storeCharge: 100,
+    grandtotal: 400,
     isActive: true,
     isPaid: true,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    getPaymentInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +54,18 @@ class _AnyBillingState extends State<AnyBilling> {
     );
   }
 
+  void getPaymentInfo() {
+    double total = 0;
+    dummyBilling.forEach((item) {
+      total += item.price * item.amount;
+    });
+
+    setState(() {
+      billing.subtotal = total;
+      billing.grandtotal = total + billing.storeCharge;
+    });
+  }
+
   Expanded _buildListAndExpandButton() {
     return Expanded(
           child: Stack(
@@ -54,14 +75,18 @@ class _AnyBillingState extends State<AnyBilling> {
                 padding: EdgeInsets.only(bottom: 0),
                 physics: BouncingScrollPhysics(),
                 children: dummyBilling.map((item) {
-                  return Column(
-                    children: [
-                      AnyBillingChild(item: item),
-                      Divider(
-                        thickness: 1,
-                        color: aBorderColor,
-                      ),
-                    ],
+                  return Parent(
+                    gesture: Gestures()
+                      ..onTap(() => getPaymentInfo()),
+                    child: Column(
+                      children: [
+                        AnyBillingChild(item: item, refresh: getPaymentInfo,),
+                        Divider(
+                          thickness: 1,
+                          color: aBorderColor,
+                        ),
+                      ],
+                    ),
                   );
                 }).toList(),
               ),
@@ -92,7 +117,7 @@ class _AnyBillingState extends State<AnyBilling> {
       child: Column(
         children: [
           SizedBox(height: aPadding),
-          _buildBillingPayment('Sub Total', billing.subtotal),
+          _buildBillingPayment('Sub Total', '${billing.subtotal}'),
           SizedBox(height: aPadding),
           Row(
             children: [
@@ -110,17 +135,30 @@ class _AnyBillingState extends State<AnyBilling> {
             ],
           ),
           SizedBox(height: aPadding),
-          _buildBillingPayment('Store Charge', '100'),
+          _buildBillingPayment('Store Charge', '${billing.storeCharge}'),
           SizedBox(height: aPadding * 2),
           _buildBillingSaveAndPrint(),
           SizedBox(height: aPadding),
           _buildBillingSplitBill(),
           SizedBox(height: aPadding),
-          AnyButton(
-            title: 'Pay SAR ${billing.grandtotal}',
-            color: aRed,
-            width: aStandardWidth,
-            enabled: true,
+          Txt(
+            'Pay SAR ${billing.grandtotal}',
+            gesture: Gestures()
+              ..isTap((isTapped) => setState(() => pressed = isTapped))
+              ..onTap(() {
+              }),
+            style: TxtStyle()
+              ..opacity(1)
+              ..width(aStandardWidth)
+              ..padding(all: aPadding)
+              ..textColor(Colors.white)
+              ..alignmentContent.center()
+              ..borderRadius(all: aBorderRadius)
+              ..background.color(aRed)
+              ..elevation(pressed ? 0 : 5, color: aRed)
+              ..scale(pressed ? 0.95 : 1)
+              ..animate(400, Curves.easeOutQuart)
+              ..ripple(true),
           ),
         ],
       ),
@@ -318,3 +356,5 @@ class _AnyBillingState extends State<AnyBilling> {
     );
   }
 }
+
+

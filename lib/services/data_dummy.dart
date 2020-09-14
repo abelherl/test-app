@@ -11,7 +11,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,
@@ -19,7 +19,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,
@@ -27,7 +27,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,
@@ -35,7 +35,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,
@@ -43,7 +43,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,
@@ -51,7 +51,7 @@ List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
     name: 'Pizza SS',
-    total: '500',
+    price: 500,
     toppings: 'Extra Cheese',
     notes: 'No Vegetables',
     amount: 1,

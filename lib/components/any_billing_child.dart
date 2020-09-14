@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:division/division.dart';
 import 'package:test_app/const.dart';
 import 'package:test_app/models/any_billing_child_item.dart';
-import 'package:test_app/services/data_dummy.dart';
 
 class AnyBillingChild extends StatefulWidget {
-  AnyBillingChild({@required this.item});
+  AnyBillingChild({@required this.item, @required this.refresh});
   final AnyBillingChildItem item;
+  final Function refresh;
   @override
-  _AnyBillingChildState createState() => _AnyBillingChildState(item);
+  _AnyBillingChildState createState() => _AnyBillingChildState(item, refresh);
 }
 
 class _AnyBillingChildState extends State<AnyBillingChild> {
-  _AnyBillingChildState(this.item);
+  _AnyBillingChildState(this.item, this.refresh);
 
+  final Function refresh;
   var amount = 0;
   AnyBillingChildItem item;
   bool pressed = false;
@@ -38,7 +39,9 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                 ),
-                SizedBox(height: aPadding - 5,),
+                SizedBox(
+                  height: aPadding - 5,
+                ),
                 Text(
                   item.toppings,
                   style: aBodyLightStyle,
@@ -58,12 +61,14 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'SAR ${item.total}',
+                  'SAR ${item.price * item.amount}',
                   style: aHeader4Style,
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                 ),
-                SizedBox(height: aPadding - 5,),
+                SizedBox(
+                  height: aPadding - 5,
+                ),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,18 +98,17 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
 
   Parent _buildChangeAmountButton(IconData icon, bool addAmount) {
     return Parent(
-                    gesture: Gestures()
-                      ..onTap(() => changeAmount(addAmount)),
-                    style: ParentStyle()
-                      ..height(25)
-                      ..width(25)
-                      ..background.color(aInactiveColor)
-                      ..borderRadius(all: 50)
-                      ..border(all: 1, color: aBorderColor)
-                      ..alignmentContent.center()
-                      ..ripple(true),
-                    child: Icon(icon, color: aRed, size: 20),
-                  );
+      gesture: Gestures()..onTap(() => changeAmount(addAmount)),
+      style: ParentStyle()
+        ..height(25)
+        ..width(25)
+        ..background.color(aInactiveColor)
+        ..borderRadius(all: 50)
+        ..border(all: 1, color: aBorderColor)
+        ..alignmentContent.center()
+        ..ripple(true),
+      child: Icon(icon, color: aRed, size: 20),
+    );
   }
 
   void changeAmount(bool addAmount) {
@@ -112,8 +116,8 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
       if (!addAmount && item.amount == 1) {
         print('Removed from billing');
       }
-
       addAmount ? item.amount++ : item.amount--;
+      refresh();
     });
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AnyBillingChildItem {
   final String id;
   final String name;
-  String total;
+  double price;
   String toppings;
   String notes;
   int amount;
@@ -11,7 +11,7 @@ class AnyBillingChildItem {
   AnyBillingChildItem({
     @required this.id,
     @required this.name,
-    @required this.total,
+    @required this.price,
     @required this.toppings,
     @required this.notes,
     @required this.amount,
