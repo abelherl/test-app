@@ -1,9 +1,61 @@
+import 'package:test_app/models/any_billing_child_item.dart';
 import 'package:test_app/models/any_menu_item.dart';
 import 'package:test_app/services/user.dart';
 
 List<User> userDummyList = [
   User(name: "User1", phone: "12345678910", password: "123"),
   User(name: "User2", phone: "1111122222", password: "12")
+];
+
+List<AnyBillingChildItem> dummyBilling = [
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
+  AnyBillingChildItem(
+    id: 'ID-213',
+    name: 'Pizza SS',
+    total: '500',
+    toppings: 'Extra Cheese',
+    notes: 'No Vegetables',
+    amount: 1,
+  ),
 ];
 
 List<AnyMenuItem> dummyMenu = [
