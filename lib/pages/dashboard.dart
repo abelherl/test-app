@@ -52,6 +52,14 @@ class _DashboardState extends State<Dashboard> {
         appBar: AppBar(
           title: Icon(Icons.fastfood),
           centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.shopping_cart, color: Colors.white,),
+              onPressed: () {
+                Navigator.pushNamed(context, '/billing');
+              },
+            )
+          ],
         ),
         body: Column(
           children: [

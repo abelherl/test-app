@@ -40,9 +40,13 @@ void main() {
     '/starting_cash': (context) => StartingCash(),
     '/onboarding': (context) => Onboarding(),
     '/device_configuration': (context) => DeviceConfiguration(),
-    '/': (context) => BlocProvider(
+    '/billing': (context) => BlocProvider(
       create: (context) => AuthCubit(),
       child: AnyBilling(),
+    ),
+    '/': (context) => BlocProvider(
+      create: (context) => AuthCubit(),
+      child: Splash(),
     ),
   },
 ));

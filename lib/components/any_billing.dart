@@ -34,22 +34,30 @@ class _AnyBillingState extends State<AnyBilling> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: aPadding),
-      color: Colors.white,
-      height: double.maxFinite,
-      child: Column(
-        children: [
-          SizedBox(height: aPadding),
-          _buildBillingHeader(),
-          SizedBox(height: aPadding),
-          _buildBillingInfo(billing),
-          SizedBox(height: aPadding),
-          _buildListAndExpandButton(),
-          _buildBillingPaymentContainer(billing),
-          SizedBox(height: aPadding),
-          _buildBillingCustomAmount(),
-        ],
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: aRed,
+        title: Text('Billing'),
+        centerTitle: true,
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: aPadding),
+        color: Colors.white,
+        height: double.maxFinite,
+        child: Column(
+          children: [
+            SizedBox(height: aPadding),
+            _buildBillingHeader(),
+            SizedBox(height: aPadding),
+            _buildBillingInfo(billing),
+            SizedBox(height: aPadding),
+            _buildListAndExpandButton(),
+            _buildBillingPaymentContainer(billing),
+            SizedBox(height: aPadding),
+            _buildBillingCustomAmount(),
+          ],
+        ),
       ),
     );
   }
@@ -68,45 +76,52 @@ class _AnyBillingState extends State<AnyBilling> {
 
   Expanded _buildListAndExpandButton() {
     return Expanded(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ListView(
-                padding: EdgeInsets.only(bottom: 0),
-                physics: BouncingScrollPhysics(),
-                children: dummyBilling.map((item) {
-                  return Parent(
-                    gesture: Gestures()
-                      ..onTap(() => getPaymentInfo()),
-                    child: Column(
-                      children: [
-                        AnyBillingChild(item: item, refresh: getPaymentInfo,),
-                        Divider(
-                          thickness: 1,
-                          color: aBorderColor,
-                        ),
-                      ],
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ListView(
+            padding: EdgeInsets.only(bottom: 0),
+            physics: BouncingScrollPhysics(),
+            children: dummyBilling.map((item) {
+              return Parent(
+                gesture: Gestures()..onTap(() => getPaymentInfo()),
+                child: Column(
+                  children: [
+                    AnyBillingChild(
+                      item: item,
+                      refresh: getPaymentInfo,
                     ),
-                  );
-                }).toList(),
-              ),
-              Positioned(
-                bottom: 0,
-                child: Parent(
-                  gesture: Gestures()
-                    ..onTap(() => setState(() => hidePayment = !hidePayment)),
-                  style: ParentStyle()
-                    ..width(30)
-                    ..height(20)
-                    ..borderRadius(topLeft: 5, topRight: 5)
-                    ..background.color(aRed)
-                    ..alignmentContent.center(),
-                  child: Icon(hidePayment ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: Colors.white,),
+                    Divider(
+                      thickness: 1,
+                      color: aBorderColor,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            }).toList(),
           ),
-        );
+          Positioned(
+            bottom: 0,
+            child: Parent(
+              gesture: Gestures()
+                ..onTap(() => setState(() => hidePayment = !hidePayment)),
+              style: ParentStyle()
+                ..width(30)
+                ..height(20)
+                ..borderRadius(topLeft: 5, topRight: 5)
+                ..background.color(aRed)
+                ..alignmentContent.center(),
+              child: Icon(
+                hidePayment
+                    ? Icons.keyboard_arrow_up
+                    : Icons.keyboard_arrow_down,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Parent _buildBillingPaymentContainer(AnyBillingItem billing) {
@@ -145,8 +160,7 @@ class _AnyBillingState extends State<AnyBilling> {
             'Pay SAR ${billing.grandtotal}',
             gesture: Gestures()
               ..isTap((isTapped) => setState(() => pressed = isTapped))
-              ..onTap(() {
-              }),
+              ..onTap(() {}),
             style: TxtStyle()
               ..opacity(1)
               ..width(aStandardWidth)
@@ -356,5 +370,3 @@ class _AnyBillingState extends State<AnyBilling> {
     );
   }
 }
-
-
