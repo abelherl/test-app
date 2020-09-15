@@ -33,10 +33,12 @@ class _AnyBillingState extends State<AnyBilling> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        color: Colors.white,
-        width: 300,
-        height: double.maxFinite,
+      child: Parent(
+        style: ParentStyle()
+          ..height(double.infinity)
+          ..maxWidth(350)
+          ..minWidth(300)
+          ..background.color(Colors.white),
         child: Column(
           children: [
             SizedBox(height: aPadding),

@@ -51,25 +51,24 @@ class _PinState extends State<Pin> {
               padding: EdgeInsets.symmetric(vertical: 15),
               width: maxWidth,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Spacer(),
                   Image(
                     image: AssetImage('assets/images/logo.png'),
                   ),
-                  Spacer(),
+                  SizedBox(height: aLargerPadding),
                   Text(
                     'Enter Your Login PIN',
                     style: aTitleStyle,
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: aPadding),
                   _buildPinIndicator(maxWidth, radius),
-                  Spacer(),
+                  SizedBox(height: aPadding),
                   _buildErrorText(),
-                  Spacer(),
+                  SizedBox(height: aPadding),
                   _buildNumpad(maxWidth, radius),
-                  Spacer(),
                 ],
               ),
             ),
@@ -146,7 +145,7 @@ class _PinState extends State<Pin> {
     response = await dio.get('https://my-json-server.typicode.com/abelherl/test-app/db');
     print(response.data.toString());
 
-    dummy = UserList.fromJsonMap(response.data).user[1];
+    dummy = UserList.fromJsonMap(response.data).user[0];
     print(dummy.pin);
   }
 

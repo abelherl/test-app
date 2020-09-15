@@ -13,7 +13,7 @@ const Color aInactiveColor = const Color(0xFFEDF1F7);
 const Color aShadowColor = const Color(0xFFBBBBBB);
 const Color aBorderColor = const Color(0xFFDDDDDD);
 
-const Color aRed = const Color(0xFFD63B31);
+const Color aRed = const Color(0xFFD63B30);
 const Color aLightRed = const Color(0xFFFCF0EF);
 const Color aGreen = const Color(0xFF28AF47);
 const Color aLightGreen = const Color(0xFFD8FBD3);

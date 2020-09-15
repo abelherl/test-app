@@ -62,7 +62,27 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
                       ..height(80)
                       ..width(80)
                       ..borderRadius(all: aBorderRadius)
+                      ..alignmentContent.topLeft()
                       ..background.image(url: item.imageUrl, fit: BoxFit.cover),
+                    child: Container(
+                      transform: Matrix4.translationValues(-1, -1, 0),
+                      child: Txt(
+                        '$amount',
+                        style: TxtStyle()
+                          ..width((amount == 0) ? 0 : 25)
+                          ..height((amount == 0) ? 0 : 25)
+                          ..alignmentContent.center()
+                          ..textAlign.center()
+                          ..fontSize(12)
+                          ..textColor(Colors.white)
+                          ..bold()
+                          ..scale(pressed ? 0.95 : 1)
+                          ..animate(300, Curves.easeOutQuart)
+                          ..background.color(aRed)
+                          ..border(all: 1, color: Colors.white)
+                          ..borderRadius(bottomRight: aBorderRadius, topLeft: aBorderRadius),
+                      ),
+                    ),
                   ),
                   SizedBox(height: aPadding,),
                   Container(
@@ -83,25 +103,6 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
                     style: item.soldOut ? aErrorStyle : aBodyLightStyle,
                   ),
                 ],
-              ),
-            ),
-            Positioned(
-              top: 5,
-              left: 5,
-              child: Txt(
-                '$amount',
-                style: TxtStyle()
-                  ..width((amount == 0) ? 0 : 30)
-                  ..height((amount == 0) ? 0 : 30)
-                  ..alignmentContent.center()
-                  ..textAlign.center()
-                  ..fontSize(12)
-                  ..textColor(Colors.white)
-                  ..bold()
-                  ..scale(pressed ? 0.95 : 1)
-                  ..animate(300, Curves.easeOutQuart)
-                  ..background.color(aRed)
-                  ..borderRadius(all: 15),
               ),
             ),
           ],
