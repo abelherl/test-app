@@ -49,6 +49,14 @@ const aBodyLightStyle = TextStyle(
   fontSize: 14,
 );
 
+const aSmallBodyLightStyle = TextStyle(
+  color: aLightTextColor,
+  fontFamily: aFontFamily,
+  fontWeight: FontWeight.w400,
+  decoration: TextDecoration.none,
+  fontSize: 12,
+);
+
 const aBoldBodyLightStyle = TextStyle(
   color: aLightTextColor,
   fontFamily: aFontFamily,
@@ -62,7 +70,7 @@ const aButtonTextStyle = TextStyle(
   fontFamily: aFontFamily,
   fontWeight: FontWeight.w400,
   decoration: TextDecoration.none,
-  fontSize: 14,
+  fontSize: 12,
 );
 
 const aErrorStyle = TextStyle(
@@ -109,6 +117,7 @@ const aHeader5Style = TextStyle(
 const aBorderWidth = 1.0;
 const aBorderRadius = 10.0;
 const aPadding = 15.0;
+const aLargerPadding = 30.0;
 const aStandardWidth = 350.0;
 
 final aFormatter = NumberFormat("#,###");

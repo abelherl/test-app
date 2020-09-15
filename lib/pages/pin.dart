@@ -1,11 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:test_app/const.dart';
+import 'package:test_app/models/user.dart';
+import 'package:test_app/models/user_model.dart';
 import 'package:test_app/services/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dio/dio.dart';
 
 class Pin extends StatefulWidget {
   @override
@@ -24,6 +26,8 @@ class _PinState extends State<Pin> {
 
   bool isError = false;
   bool changePage = false;
+
+  User dummy = User(0, 0, '', '');
 
   var pinBools = [false, false, false, false, false, false];
   var value = '';
@@ -107,7 +111,7 @@ class _PinState extends State<Pin> {
 
   void onSubmit() {
     var text = 'Invalid PIN';
-    final valid = (value == dummyPIN);
+    final valid = (value == dummy.pin);
     final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
 
     setState(() => isError = !valid);
@@ -124,7 +128,7 @@ class _PinState extends State<Pin> {
   }
 
   // set PIN related data to its initial value
-  void init() {
+  void init() async {
     final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
     print(isLoggedIn);
 
@@ -136,6 +140,14 @@ class _PinState extends State<Pin> {
       value = '';
       pinBools = [false, false, false, false, false, false];
     });
+
+    Response response;
+    Dio dio = Dio();
+    response = await dio.get('https://my-json-server.typicode.com/abelherl/test-app/db');
+    print(response.data.toString());
+
+    dummy = UserList.fromJsonMap(response.data).user[1];
+    print(dummy.pin);
   }
 
   Center _buildErrorText() {

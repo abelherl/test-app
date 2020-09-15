@@ -54,6 +54,7 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
                 ..animate(300, Curves.easeOutQuart)
                 ..ripple(item.soldOut ? false : true, splashColor: aLightRed, highlightColor: Colors.transparent,),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Parent(
