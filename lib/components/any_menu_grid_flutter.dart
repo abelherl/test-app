@@ -42,37 +42,37 @@ class _AnyMenuGridFlutterState extends State<AnyMenuGridFlutter> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(item.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(aBorderRadius),
-              ),
-              child: Stack(
-                children: [
-                  Container(
-                    height: (amount == 0) ? 0 : 25,
-                    width: (amount == 0) ? 0 : 25,
-                    transform: Matrix4.translationValues(-1, -1, 0),
-                    decoration: BoxDecoration(
-                      color: aRed,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(aBorderRadius),
-                          topLeft: Radius.circular(aBorderRadius)),
-                      border: Border.all(color: Colors.white),
+            Stack(
+              children: [
+                Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(item.imageUrl),
+                      fit: BoxFit.cover,
                     ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$amount',
-                      style: aButtonTextStyle,
-                    ),
+                    borderRadius: BorderRadius.circular(aBorderRadius),
                   ),
-                ],
-              ),
+                ),
+                Container(
+                  height: (amount == 0) ? 0 : 25,
+                  width: (amount == 0) ? 0 : 25,
+                  transform: Matrix4.translationValues(-1, -1, 0),
+                  decoration: BoxDecoration(
+                    color: aRed,
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(aBorderRadius),
+                        topLeft: Radius.circular(aBorderRadius)),
+                    border: Border.all(color: Colors.white),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '$amount',
+                    style: aButtonTextStyle,
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: aPadding),
             Container(
@@ -83,11 +83,10 @@ class _AnyMenuGridFlutterState extends State<AnyMenuGridFlutter> {
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: aHeader4Style,
-                  overflow: TextOverflow.fade,
                 ),
               ),
             ),
-            SizedBox(height: aPadding - 10),
+            SizedBox(height: 7),
             Text(
               item.soldOut ? 'Sold Out!' : 'SAR ${item.price}',
               style: item.soldOut ? aErrorStyle : aBodyLightStyle,

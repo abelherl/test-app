@@ -16,12 +16,8 @@ class Pin extends StatefulWidget {
 
 class _PinState extends State<Pin> {
   final inputs = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-  final runSpacing = 20.0;
-  final listSize = 15;
   final columns = 3;
   final spacing = 20.0;
-  final padding = 15.0;
-  final fontSize = 300 / 20 + 300 / 20;
   final dummyPIN = '123321';
 
   bool isError = false;
@@ -226,14 +222,14 @@ class _PinState extends State<Pin> {
 
     final numpadStyle = ParentStyle()..maxWidth(maxWidth);
 
-    final zeroNumpadStyle = ParentStyle()..maxWidth(maxWidth / 3 + padding / 2);
+    final zeroNumpadStyle = ParentStyle()..maxWidth(maxWidth / 3 + aPadding / 2);
 
     return Column(
       children: [
         Parent(
           style: numpadStyle,
           child: GridView(
-            padding: EdgeInsets.all(padding),
+            padding: EdgeInsets.all(aPadding),
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -256,7 +252,7 @@ class _PinState extends State<Pin> {
         Parent(
           style: zeroNumpadStyle,
           child: GridView(
-              padding: EdgeInsets.fromLTRB(15, spacing - padding, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, spacing - aPadding, 15, 15),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisSpacing: spacing,
