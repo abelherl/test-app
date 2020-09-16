@@ -17,7 +17,7 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
   _AnyBillingChildState(this.item, this.refresh);
 
   final Function refresh;
-  var amount = 0;
+  int amount = 0;
   AnyBillingChildItem item;
   bool pressed = false;
 

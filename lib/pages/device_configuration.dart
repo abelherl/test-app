@@ -8,8 +8,8 @@ class DeviceConfiguration extends StatefulWidget {
 }
 
 class _DeviceConfigurationState extends State<DeviceConfiguration> {
-  var deviceID = '';
-  var dummyID = 'DUMMY430918';
+  String deviceID = '';
+  String dummyID = 'DUMMY430918';
   bool isFilled = false;
   bool isError = false;
   bool isRtl = false;

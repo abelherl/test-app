@@ -17,7 +17,7 @@ class _AnyMenuListState extends State<AnyMenuList> {
   _AnyMenuListState(this.item);
 
   final AnyMenuItem item;
-  var amount = 0;
+  int amount = 0;
   bool pressed = false;
 
   @override

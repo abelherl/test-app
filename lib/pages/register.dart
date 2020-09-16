@@ -73,7 +73,7 @@ class _RegisterState extends State<Register> {
   }
 
   void checkErrors(FailedState state) {
-    var error = "";
+    String error = "";
     if (state.field != "name") {
       if (state.field != "email") {
         if (state.field != "address") {
@@ -109,7 +109,7 @@ class _RegisterState extends State<Register> {
   }
 
   bool checkErrorOnField(String field) {
-    var error = false;
+    bool error = false;
     if (errorAt == field) {
       error = true;
     }

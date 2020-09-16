@@ -25,8 +25,8 @@ class _PinState extends State<Pin> {
 
   User dummy = User(0, 0, '', '');
 
-  var pinBools = [false, false, false, false, false, false];
-  var value = '';
+  List<bool> pinBools = [false, false, false, false, false, false];
+  String value = '';
 
   @override
   void initState() {
@@ -74,8 +74,8 @@ class _PinState extends State<Pin> {
 
   // inputNumber
   void inputNumber(String input) {
-    var i = 0;
-    var stop = false;
+    int i = 0;
+    bool stop = false;
 
     if (value.length < 6) {
       // updating pinBools for the input indicator
@@ -105,7 +105,7 @@ class _PinState extends State<Pin> {
   }
 
   void onSubmit() {
-    var text = 'Invalid PIN';
+    String text = 'Invalid PIN';
     final valid = (value == dummy.pin);
     final isLoggedIn = (context.bloc<AuthCubit>().state).isLoggedIn;
 

@@ -72,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
   TextEditingController _email = TextEditingController();
   TextEditingController _phone = TextEditingController();
   TextEditingController _password = TextEditingController();
-  var isAllFilled = false;
+  bool isAllFilled = false;
   final _formKey = GlobalKey<FormState>();
 
   void validate() {

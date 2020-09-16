@@ -9,8 +9,8 @@ class StartingCash extends StatefulWidget {
 }
 
 class _StartingCashState extends State<StartingCash> {
-  var value = '';
-  var time = '09:00 AM';
+  String value = '';
+  String time = '09:00 AM';
 
   @override
   Widget build(BuildContext context) {

@@ -18,7 +18,7 @@ class _AnyMenuGridFlutterState extends State<AnyMenuGridFlutter> {
   _AnyMenuGridFlutterState(this.item);
 
   final AnyMenuItem item;
-  var amount = 0;
+  int amount = 0;
 
   @override
   Widget build(BuildContext context) {

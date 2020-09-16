@@ -20,7 +20,7 @@ class _AnyBillingState extends State<AnyBilling> {
   final State parentState;
   bool hidePayment = true;
   bool pressed = false;
-  var billing = AnyBillingItem(
+  AnyBillingItem billing = AnyBillingItem(
     id: 'ID-FF78',
     customer: '',
     orderType: 'Dine In',

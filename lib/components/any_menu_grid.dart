@@ -19,7 +19,7 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
   _AnyMenuGridState(this.item);
 
   final AnyMenuItem item;
-  var amount = 0;
+  int amount = 0;
   bool pressed = false;
 
   @override

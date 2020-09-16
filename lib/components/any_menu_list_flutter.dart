@@ -17,7 +17,7 @@ class _AnyMenuListFlutterState extends State<AnyMenuListFlutter> {
   _AnyMenuListFlutterState(this.item);
 
   final AnyMenuItem item;
-  var amount = 0;
+  int amount = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(

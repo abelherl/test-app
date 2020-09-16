@@ -15,7 +15,7 @@ class _SplashState extends State<Splash> {
     super.initState();
 
     final isLoggedIn = context.bloc<AuthCubit>().state.isLoggedIn;
-    var route = '/onboarding';
+    String route = '/onboarding';
 
     print('Logged in: $isLoggedIn');
 

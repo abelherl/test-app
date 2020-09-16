@@ -10,8 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var name = '';
-  var email = '';
+  String name = '';
+  String email = '';
 
   void getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

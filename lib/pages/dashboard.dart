@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:division/division.dart';
 import 'package:test_app/components/any_billing.dart';
 import 'package:test_app/components/any_billing_child.dart';
-import 'package:test_app/components/any_menu_grid.dart';
 import 'package:test_app/components/any_menu_grid_flutter.dart';
-import 'package:test_app/components/any_menu_list.dart';
 import 'package:test_app/components/any_menu_list_flutter.dart';
 import 'package:test_app/const.dart';
 import 'package:test_app/models/any_billing_item.dart';
+import 'package:test_app/models/any_menu_item.dart';
 import 'package:test_app/services/data_dummy.dart';
 
 class Dashboard extends StatefulWidget {
@@ -17,15 +16,15 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  var selectedIndex = 0;
-  var selectedCategoryMenu = dummyMenu;
-  var searchedItem = [];
+  int selectedIndex = 0;
+  List<AnyMenuItem> selectedCategoryMenu = dummyMenu;
+  List<AnyMenuItem> searchedItem = [];
   bool isSearching = false;
   bool gridLayout = true;
   bool hidePayment = true;
   bool pressed = false;
 
-  var billing = AnyBillingItem(
+  AnyBillingItem billing = AnyBillingItem(
     id: 'ID-FF78',
     customer: '',
     orderType: 'Dine In',
@@ -76,7 +75,7 @@ class _DashboardState extends State<Dashboard> {
 
   int getCrossAxisCount() {
     final width = MediaQuery.of(context).size.width;
-    var crossAxisAmount = 3;
+    int crossAxisAmount = 3;
 
     if (width >= 900) {
       crossAxisAmount = 4;
@@ -90,7 +89,7 @@ class _DashboardState extends State<Dashboard> {
 
   double getChildAspectRatio() {
     final height = MediaQuery.of(context).size.height;
-    var childAspectRatio = height / 1.5 / height;
+    double childAspectRatio = height / 1.5 / height;
 
     return childAspectRatio;
   }
