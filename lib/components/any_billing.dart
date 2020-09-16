@@ -6,11 +6,18 @@ import 'package:test_app/models/any_billing_item.dart';
 import 'package:test_app/services/data_dummy.dart';
 
 class AnyBilling extends StatefulWidget {
+  AnyBilling({@required this.parentState});
+
+  final State parentState;
+
   @override
-  _AnyBillingState createState() => _AnyBillingState();
+  _AnyBillingState createState() => _AnyBillingState(parentState);
 }
 
 class _AnyBillingState extends State<AnyBilling> {
+  _AnyBillingState(this.parentState);
+
+  final State parentState;
   bool hidePayment = true;
   bool pressed = false;
   var billing = AnyBillingItem(
@@ -122,7 +129,7 @@ class _AnyBillingState extends State<AnyBilling> {
     return Parent(
       style: ParentStyle()
         ..background.color(Colors.white)
-        ..height(hidePayment ? 0 : 290)
+        ..height(hidePayment ? 0 : 240)
         ..animate(500, Curves.easeOutQuart),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: aPadding),
@@ -151,8 +158,6 @@ class _AnyBillingState extends State<AnyBilling> {
             _buildBillingPayment('Store Charge', '${billing.storeCharge}'),
             SizedBox(height: aPadding * 2),
             _buildBillingSaveAndPrint(),
-            SizedBox(height: aPadding),
-            _buildBillingSplitBill(),
             SizedBox(height: aPadding),
             Txt(
               'Pay SAR ${billing.grandtotal}',
@@ -203,23 +208,6 @@ class _AnyBillingState extends State<AnyBilling> {
     );
   }
 
-  Parent _buildBillingSplitBill() {
-    return Parent(
-      gesture: Gestures()..onTap(() {}),
-      style: ParentStyle()
-        ..padding(all: aPadding - 8)
-        ..alignmentContent.center()
-        ..borderRadius(all: aBorderRadius)
-        ..border(all: 1, color: aBorderColor)
-        ..background.color(aInactiveColor)
-        ..ripple(true),
-      child: Text(
-        'Split Bill',
-        style: aBodyLightStyle,
-      ),
-    );
-  }
-
   Padding _buildBillingSaveAndPrint() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0),
@@ -237,7 +225,7 @@ class _AnyBillingState extends State<AnyBilling> {
                 ..background.color(aInactiveColor)
                 ..ripple(true),
               child: Text(
-                'Save Bill',
+                'Save',
                 style: aBodyLightStyle,
               ),
             ),
@@ -254,7 +242,24 @@ class _AnyBillingState extends State<AnyBilling> {
                 ..background.color(aInactiveColor)
                 ..ripple(true),
               child: Text(
-                'Print Bill',
+                'Split',
+                style: aBodyLightStyle,
+              ),
+            ),
+          ),
+          SizedBox(width: aPadding),
+          Expanded(
+            child: Parent(
+              gesture: Gestures()..onTap(() {}),
+              style: ParentStyle()
+                ..padding(all: aPadding - 8)
+                ..alignmentContent.center()
+                ..borderRadius(all: aBorderRadius)
+                ..border(all: 1, color: aBorderColor)
+                ..background.color(aInactiveColor)
+                ..ripple(true),
+              child: Text(
+                'Print',
                 style: aBodyLightStyle,
               ),
             ),
@@ -287,11 +292,12 @@ class _AnyBillingState extends State<AnyBilling> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: aPadding),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             billing.id,
-            style: aHeader2Style,
+            style: aHeader3Style,
           ),
           Txt(
             billing.isPaid ? 'Paid' : 'Unpaid',
@@ -324,7 +330,7 @@ class _AnyBillingState extends State<AnyBilling> {
               style: ParentStyle()
                 ..padding(all: aPadding - 8)
                 ..alignmentContent.center()
-                ..borderRadius(all: aBorderRadius)
+                ..borderRadius(all: aBorderRadius + 2)
                 ..background.color(aRed)
                 ..ripple(true),
               child: Row(
@@ -351,7 +357,7 @@ class _AnyBillingState extends State<AnyBilling> {
               style: ParentStyle()
                 ..padding(all: aPadding - 8)
                 ..alignmentContent.center()
-                ..borderRadius(all: aBorderRadius)
+                ..borderRadius(all: aBorderRadius + 2)
                 ..border(all: 1, color: aBorderColor)
                 ..background.color(aInactiveColor)
                 ..ripple(true),

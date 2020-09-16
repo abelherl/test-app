@@ -40,8 +40,8 @@ class _PinState extends State<Pin> {
 
   @override
   Widget build(BuildContext context) {
-    final maxWidth = 270.0;
-    final radius = maxWidth / 28;
+    final maxWidth = 230.0;
+    final radius = aBorderRadius;
 
     return Scaffold(
         backgroundColor: aBackgroundColor,
@@ -173,8 +173,8 @@ class _PinState extends State<Pin> {
             children: pinBools.map((_) {
               return Parent(
                 style: ParentStyle()
-                  ..width(maxWidth / 12)
-                  ..height(maxWidth / 12)
+                  ..maxWidth(maxWidth / 12)
+                  ..maxHeight(maxWidth / 12)
                   ..borderRadius(all: radius / 2)
                   ..background.color(Colors.white)
                   ..border(
@@ -217,7 +217,7 @@ class _PinState extends State<Pin> {
       ..elevation(5, color: aShadowColor)
       ..bold(true)
       ..fontFamily(aFontFamily)
-      ..fontSize(fontSize)
+      ..fontSize(18)
       ..ripple(
         true,
         splashColor: aGreen,

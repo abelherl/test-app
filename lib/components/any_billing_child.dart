@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:division/division.dart';
+import 'package:test_app/components/any_menu_grid.dart';
 import 'package:test_app/const.dart';
 import 'package:test_app/models/any_billing_child_item.dart';
+import 'package:test_app/services/data_dummy.dart';
 
 class AnyBillingChild extends StatefulWidget {
   AnyBillingChild({@required this.item, @required this.refresh});
@@ -111,13 +113,94 @@ class _AnyBillingChildState extends State<AnyBillingChild> {
     );
   }
 
-  void changeAmount(bool addAmount) {
-    setState(() {
-      if (!addAmount && item.amount == 1) {
-        print('Removed from billing');
-      }
-      addAmount ? item.amount++ : item.amount--;
-      refresh();
-    });
+  void changeAmount(bool addAmount) async {
+    bool delete = false;
+
+    if (!addAmount && item.amount == 1) {
+      delete = await showDeleteDialog(context);
+    }
+
+    if (delete) {
+      print('Deleted');
+    }
+    else {
+      setState(() {
+        addAmount ? item.amount++ : item.amount--;
+        refresh();
+      });
+    }
+  }
+
+  Future<bool> showDeleteDialog(BuildContext context) async {
+    dynamic result = await showDialog(
+        context: context,
+        builder: (context) {
+          return Parent(
+            style: ParentStyle()
+              ..alignment.center()
+              ..maxHeight(200)
+              ..width(290)
+              ..padding(all: 20)
+              ..borderRadius(all: aBorderRadius * 2)
+              ..background.color(Colors.white),
+            child: Column(
+              children: [
+                Text(
+                  'Item Order',
+                  style: aHeader3Style,
+                ),
+                SizedBox(height: aPadding),
+                Expanded(
+                  child: Text(
+                    'Are you sure you want to\ndelete this item?',
+                    textAlign: TextAlign.center,
+                    style: aBodyStyle,
+                  ),
+                ),
+                SizedBox(height: aPadding),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Txt('No',
+                          gesture: Gestures()
+                            ..onTap(() => Navigator.pop(context, {'delete': false})),
+                          style: TxtStyle()
+                            ..padding(all: 10)
+                            ..fontFamily(aFontFamily)
+                            ..alignmentContent.center()
+                            ..fontSize(14)
+                            ..textColor(aDarkTextColor)
+                            ..bold()
+                            ..textDecoration(TextDecoration.none)
+                            ..borderRadius(all: aBorderRadius)
+                            ..background.color(Colors.transparent)),
+                    ),
+                    Expanded(
+                      child: Txt(
+                        'Yes',
+                        style: TxtStyle()
+                          ..padding(all: 10)
+                          ..fontFamily(aFontFamily)
+                          ..alignmentContent.center()
+                          ..fontSize(14)
+                          ..textColor(Colors.white)
+                          ..bold()
+                          ..textDecoration(TextDecoration.none)
+                          ..borderRadius(all: aBorderRadius)
+                          ..background.color(aRed),
+                        gesture: Gestures()
+                          ..onTap(
+                            () => Navigator.pop(context, {'delete': true}),
+                          ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
+
+    return result['delete'];
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnyMenuItem {
+  final String id;
   final String name;
   final String price;
   final String description;
@@ -9,6 +10,7 @@ class AnyMenuItem {
   final bool soldOut;
 
   AnyMenuItem({
+    @required this.id,
     @required this.name,
     @required this.price,
     @required this.description,

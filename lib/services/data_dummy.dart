@@ -10,46 +10,7 @@ List<User> userDummyList = [
 List<AnyBillingChildItem> dummyBilling = [
   AnyBillingChildItem(
     id: 'ID-213',
-    name: 'Pizza SS',
-    price: 500,
-    toppings: 'Extra Cheese',
-    notes: 'No Vegetables',
-    amount: 1,
-  ),
-  AnyBillingChildItem(
-    id: 'ID-213',
-    name: 'Pizza SS',
-    price: 500,
-    toppings: 'Extra Cheese',
-    notes: 'No Vegetables',
-    amount: 1,
-  ),
-  AnyBillingChildItem(
-    id: 'ID-213',
-    name: 'Pizza SS',
-    price: 500,
-    toppings: 'Extra Cheese',
-    notes: 'No Vegetables',
-    amount: 1,
-  ),
-  AnyBillingChildItem(
-    id: 'ID-213',
-    name: 'Pizza SS',
-    price: 500,
-    toppings: 'Extra Cheese',
-    notes: 'No Vegetables',
-    amount: 1,
-  ),
-  AnyBillingChildItem(
-    id: 'ID-213',
-    name: 'Pizza SS',
-    price: 500,
-    toppings: 'Extra Cheese',
-    notes: 'No Vegetables',
-    amount: 1,
-  ),
-  AnyBillingChildItem(
-    id: 'ID-213',
+    menuId: '1',
     name: 'Pizza SS',
     price: 500,
     toppings: 'Extra Cheese',
@@ -60,6 +21,7 @@ List<AnyBillingChildItem> dummyBilling = [
 
 List<AnyMenuItem> dummyMenu = [
   AnyMenuItem(
+    id: '1',
     name: 'Pizza SS',
     price: '500',
     category: 'food',
@@ -68,6 +30,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '2',
     name: 'Cheems Pizza',
     price: '100',
     category: 'food',
@@ -76,6 +39,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: true,
   ),
   AnyMenuItem(
+    id: '3',
     name: 'Pizza Again',
     price: '200',
     category: 'food',
@@ -84,6 +48,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '1',
     name: 'Pizza SS',
     price: '500',
     category: 'food',
@@ -92,6 +57,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '2',
     name: 'Cheems Pizza',
     price: '100',
     category: 'food',
@@ -100,6 +66,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: true,
   ),
   AnyMenuItem(
+    id: '1',
     name: 'Pizza SS',
     price: '500',
     category: 'food',
@@ -108,6 +75,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '2',
     name: 'Cheems Pizza',
     price: '100',
     category: 'food',
@@ -116,6 +84,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: true,
   ),
   AnyMenuItem(
+    id: '3',
     name: 'Pizza Again',
     price: '200',
     category: 'food',
@@ -124,6 +93,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '1',
     name: 'Pizza SS',
     price: '500',
     category: 'food',
@@ -132,6 +102,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '4',
     name: 'Drink 1',
     price: '100',
     category: 'drink',
@@ -140,6 +111,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '5',
     name: 'Water',
     price: '80',
     category: 'drink',
@@ -148,6 +120,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '6',
     name: 'Tap Water',
     price: '50',
     category: 'drink',
@@ -156,6 +129,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '4',
     name: 'Drink 1',
     price: '100',
     category: 'drink',
@@ -164,6 +138,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '5',
     name: 'Water',
     price: '80',
     category: 'drink',
@@ -172,6 +147,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '6',
     name: 'Tap Water',
     price: '50',
     category: 'drink',
@@ -180,6 +156,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '5',
     name: 'Water',
     price: '80',
     category: 'drink',
@@ -188,6 +165,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '6',
     name: 'Tap Water',
     price: '50',
     category: 'drink',
@@ -196,6 +174,7 @@ List<AnyMenuItem> dummyMenu = [
     soldOut: false,
   ),
   AnyMenuItem(
+    id: '4',
     name: 'Drink 1',
     price: '100',
     category: 'drink',
@@ -207,8 +186,10 @@ List<AnyMenuItem> dummyMenu = [
 
 List<String> foodCategories = [
   'All',
+  'Packages',
   'Food',
   'Drink',
   'Beverages',
   'Snacks',
+  'Holiday Special'
 ];
