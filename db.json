@@ -1,0 +1,22 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "id-resto": 1,
+      "name": "Bob Ross",
+      "pin": "123321"
+    },
+    {
+      "id": 2,
+      "id-resto": 1,
+      "name": "Byan Beynolds",
+      "pin": "321123"
+    },
+    {
+      "id": 3,
+      "id-resto": 1,
+      "name": "Abel Herlambang",
+      "pin": "258025"
+    }
+  ]
+}
