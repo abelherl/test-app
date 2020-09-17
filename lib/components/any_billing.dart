@@ -18,7 +18,7 @@ class _AnyBillingState extends State<AnyBilling> {
   _AnyBillingState(this.parentState);
 
   final State parentState;
-  bool hidePayment = true;
+  bool hidePayment = false;
   bool pressed = false;
   AnyBillingItem billing = AnyBillingItem(
     id: 'ID-FF78',

@@ -22,76 +22,87 @@ class _AnyMenuGridFlutterState extends State<AnyMenuGridFlutter> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 5,
-      shadowColor: aShadowColor,
-      borderRadius: BorderRadius.circular(aBorderRadius),
-      color: Colors.white,
-      child: MaterialButton(
-        onPressed: () {
-          if (!item.soldOut) {
-            setState(() => amount += 1);
-          }
-        },
-        onLongPress: () {
-          setState(() => amount = 0);
-        },
-        splashColor: aLightRed,
-        highlightColor: Colors.transparent,
-        padding: EdgeInsets.all(aPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Stack(
-              children: [
-                Container(
-                  height: 80,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(item.imageUrl),
-                      fit: BoxFit.cover,
+    return Opacity(
+      opacity: item.soldOut ? 0.7 : 1,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(aBorderRadius),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: item.soldOut ? Colors.transparent : aShadowColor,
+              offset: Offset(0, 1),
+              blurRadius: 8,
+              spreadRadius: 1,
+            )
+          ],
+        ),
+        child: MaterialButton(
+          onPressed: () {
+            if (!item.soldOut) {
+              setState(() => amount += 1);
+            }
+          },
+          onLongPress: () {
+            setState(() => amount = 0);
+          },
+          splashColor: aLightRed,
+          highlightColor: Colors.transparent,
+          padding: EdgeInsets.all(aPadding),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: 80,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(item.imageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: BorderRadius.circular(aBorderRadius),
                     ),
-                    borderRadius: BorderRadius.circular(aBorderRadius),
                   ),
-                ),
-                Container(
-                  height: (amount == 0) ? 0 : 25,
-                  width: (amount == 0) ? 0 : 25,
-                  transform: Matrix4.translationValues(-1, -1, 0),
-                  decoration: BoxDecoration(
-                    color: aRed,
-                    borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(aBorderRadius),
-                        topLeft: Radius.circular(aBorderRadius)),
-                    border: Border.all(color: Colors.white),
+                  Container(
+                    height: (amount == 0) ? 0 : 25,
+                    width: (amount == 0) ? 0 : 25,
+                    transform: Matrix4.translationValues(-1, -1, 0),
+                    decoration: BoxDecoration(
+                      color: aRed,
+                      borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(aBorderRadius),
+                          topLeft: Radius.circular(aBorderRadius)),
+                      border: Border.all(color: Colors.white),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$amount',
+                      style: aButtonTextStyle,
+                    ),
                   ),
-                  alignment: Alignment.center,
+                ],
+              ),
+              SizedBox(height: aPadding),
+              Container(
+                height: 35,
+                child: Center(
                   child: Text(
-                    '$amount',
-                    style: aButtonTextStyle,
+                    item.name,
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: aHeader4Style,
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: aPadding),
-            Container(
-              height: 30,
-              child: Center(
-                child: Text(
-                  item.name,
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: aHeader4Style,
                 ),
               ),
-            ),
-            SizedBox(height: 7),
-            Text(
-              item.soldOut ? 'Sold Out!' : 'SAR ${item.price}',
-              style: item.soldOut ? aErrorStyle : aBodyLightStyle,
-            ),
-          ],
+              SizedBox(height: 7),
+              Text(
+                item.soldOut ? 'Sold Out!' : 'SAR ${item.price}',
+                style: item.soldOut ? aErrorStyle : aBodyLightStyle,
+              ),
+            ],
+          ),
         ),
       ),
     );

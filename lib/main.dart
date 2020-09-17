@@ -46,7 +46,7 @@ void main() {
     ),
     '/': (context) => BlocProvider(
       create: (context) => AuthCubit(),
-      child: Splash(),
+      child: Dashboard(),
     ),
   },
 ));

@@ -37,20 +37,20 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
   @override
   Widget build(BuildContext context) {
     return Parent(
-//      gesture: Gestures()
-//        ..isTap((isTap) {
-//          if(!item.soldOut) {
-//            setState(() => pressed = isTap);
-//          }
-//        })
-//        ..onTap(() {
-//          if(!item.soldOut) {
-//            setState(() => amount += 1);
-//          }
-//        })
-//        ..onLongPress(() {
-//          setState(() => amount = 0);
-//        }),
+      gesture: Gestures()
+        ..isTap((isTap) {
+          if (!item.soldOut) {
+            setState(() => pressed = isTap);
+          }
+        })
+        ..onTap(() {
+          if (!item.soldOut) {
+            setState(() => amount += 1);
+          }
+        })
+        ..onLongPress(() {
+          setState(() => amount = 0);
+        }),
       style: ParentStyle()
         ..opacity(item.soldOut ? 0.5 : 1)
         ..width(double.infinity)
@@ -60,7 +60,11 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
         ..scale(pressed ? 0.95 : 1)
         ..elevation(pressed ? 0 : 15, color: aShadowColor)
         ..animate(400, Curves.easeOutQuart)
-        ..ripple(item.soldOut ? false : true, splashColor: aLightRed, highlightColor: Colors.transparent,),
+        ..ripple(
+          item.soldOut ? false : true,
+          splashColor: aLightRed,
+          highlightColor: Colors.transparent,
+        ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -88,8 +92,8 @@ class _AnyMenuGridState extends State<AnyMenuGrid> {
                   ..animate(400, Curves.easeOutQuart)
                   ..background.color(aRed)
                   ..border(all: 1, color: Colors.white)
-                  ..borderRadius(bottomRight: aBorderRadius, topLeft: aBorderRadius
-                ),
+                  ..borderRadius(
+                      bottomRight: aBorderRadius, topLeft: aBorderRadius),
               ),
             ),
           ),

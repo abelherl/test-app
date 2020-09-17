@@ -2,12 +2,14 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:test_app/const.dart';
 import 'package:test_app/models/user.dart';
 import 'package:test_app/models/user_model.dart';
 import 'package:test_app/services/auth_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:test_app/services/useful_methods.dart';
 
 class Pin extends StatefulWidget {
   @override
@@ -15,11 +17,12 @@ class Pin extends StatefulWidget {
 }
 
 class _PinState extends State<Pin> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final inputs = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
   final columns = 3;
-  final spacing = 20.0;
   final dummyPIN = '123321';
 
+  String errorText = 'Your PIN is invalid';
   bool isError = false;
   bool changePage = false;
 
@@ -32,6 +35,7 @@ class _PinState extends State<Pin> {
   void initState() {
     super.initState();
     init();
+    getUsers();
   }
 
   @override
@@ -40,6 +44,7 @@ class _PinState extends State<Pin> {
     final radius = aBorderRadius;
 
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: aBackgroundColor,
         body: SafeArea(
           child: Center(
@@ -51,19 +56,15 @@ class _PinState extends State<Pin> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image(
-                    image: AssetImage('assets/images/logo.png'),
-                  ),
-                  SizedBox(height: aLargerPadding),
+                  SvgPicture.asset('assets/images/logo.svg', width: 160,),
+                  SizedBox(height: aPadding),
                   Text(
-                    'Enter Your Login PIN',
-                    style: aTitleStyle,
+                    isError ? errorText : 'Enter Your Login PIN',
+                    style: isError ? aErrorStyle : aTitleStyle,
                   ),
                   SizedBox(height: aPadding),
                   _buildPinIndicator(maxWidth, radius),
-                  SizedBox(height: aPadding),
-                  _buildErrorText(),
-                  SizedBox(height: aPadding),
+                  SizedBox(height: aLargerPadding),
                   _buildNumpad(maxWidth, radius),
                 ],
               ),
@@ -104,6 +105,19 @@ class _PinState extends State<Pin> {
     }
   }
 
+  void check(String route) async {
+    final bool connected = await checkNetwork();
+
+    if (connected) {
+      Timer(Duration(milliseconds: 1500),
+          () => Navigator.pushReplacementNamed(context, route));
+    } else {
+      showInSnackBar(_scaffoldKey, "App currently running in offline mode");
+      Timer(Duration(milliseconds: 3500),
+          () => Navigator.pushReplacementNamed(context, route));
+    }
+  }
+
   void onSubmit() {
     String text = 'Invalid PIN';
     final valid = (value == dummy.pin);
@@ -119,7 +133,38 @@ class _PinState extends State<Pin> {
     }
 
     print('error: $isError $text');
+    _checkNetwork();
     init();
+  }
+
+  void _checkNetwork() async {
+    bool connected = await checkNetwork();
+
+    if (!connected) {
+      bool reload = await showNoNetworkDialog(context, 'You seemed to be offline.\nPlease check your internet connection.');
+      if (reload) {
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            pageBuilder: (_,__,___) => BlocProvider(
+              create: (context) => AuthCubit(),
+              child: Scaffold(body: Pin()),
+            ),
+          )
+        );
+      }
+    }
+  }
+
+  void getUsers() async {
+    _checkNetwork();
+
+    Response response;
+    Dio dio = Dio();
+    response = await dio.get('https://my-json-server.typicode.com/abelherl/test-app/db');
+    print(response.data.toString());
+
+    setState(() => dummy = UserList.fromJsonMap(response.data).user[0]);
+    print(dummy.pin);
   }
 
   // set PIN related data to its initial value
@@ -135,27 +180,6 @@ class _PinState extends State<Pin> {
       value = '';
       pinBools = [false, false, false, false, false, false];
     });
-
-    Response response;
-    Dio dio = Dio();
-    response = await dio.get('https://my-json-server.typicode.com/abelherl/test-app/db');
-    print(response.data.toString());
-
-    dummy = UserList.fromJsonMap(response.data).user[0];
-    print(dummy.pin);
-  }
-
-  Center _buildErrorText() {
-    return Center(
-      child: Text(
-        'Your PIN is invalid.',
-        style: TextStyle(
-          color: isError ? aRed : Colors.transparent,
-          fontFamily: aFontFamily,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
   }
 
   Stack _buildPinIndicator(double maxWidth, double radius) {
@@ -194,7 +218,7 @@ class _PinState extends State<Pin> {
                   ..scale(0.9)
                   ..borderRadius(all: radius / 2)
                   ..background.color(boolean ? aGreen : Colors.white)
-                  ..elevation(3, color: boolean ? aGreen : aShadowColor)
+                  ..elevation(3, color: boolean ? aGreen : aLightTextColor)
                   ..animate(400, Curves.easeOutQuart),
               );
             }).toList(),
@@ -209,11 +233,11 @@ class _PinState extends State<Pin> {
       ..background.color(Colors.white)
       ..textColor(aDarkTextColor)
       ..alignmentContent.center()
-      ..borderRadius(all: radius)
-      ..elevation(5, color: aShadowColor)
+      ..borderRadius(all: 8)
+      ..elevation(5, color: aLightTextColor, opacity: 0.5)
       ..bold(true)
       ..fontFamily(aFontFamily)
-      ..fontSize(18)
+      ..fontSize(25)
       ..ripple(
         true,
         splashColor: aGreen,
@@ -222,7 +246,8 @@ class _PinState extends State<Pin> {
 
     final numpadStyle = ParentStyle()..maxWidth(maxWidth);
 
-    final zeroNumpadStyle = ParentStyle()..maxWidth(maxWidth / 3 + aPadding / 2);
+    final zeroNumpadStyle = ParentStyle()
+      ..maxWidth(maxWidth / 3 + aPadding / 2);
 
     return Column(
       children: [
@@ -233,8 +258,8 @@ class _PinState extends State<Pin> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: spacing,
-              mainAxisSpacing: spacing,
+              crossAxisSpacing: aPadding,
+              mainAxisSpacing: aPadding,
               crossAxisCount: 3,
             ),
             children: inputs.map((input) {
@@ -252,11 +277,11 @@ class _PinState extends State<Pin> {
         Parent(
           style: zeroNumpadStyle,
           child: GridView(
-              padding: EdgeInsets.fromLTRB(15, spacing - aPadding, 15, 15),
+              padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: spacing,
-                mainAxisSpacing: spacing,
+                crossAxisSpacing: aPadding,
+                mainAxisSpacing: aPadding,
                 crossAxisCount: 1,
               ),
               children: [
@@ -272,18 +297,5 @@ class _PinState extends State<Pin> {
         ),
       ],
     );
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-      String text, bool valid) {
-    return Scaffold.of(context).showSnackBar(new SnackBar(
-      content: new Text(text),
-      backgroundColor: valid ? aGreen : aRed,
-      action: SnackBarAction(
-        label: 'DISMISS',
-        textColor: Colors.white,
-        onPressed: () => SnackBarClosedReason.dismiss,
-      ),
-    ));
   }
 }

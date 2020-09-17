@@ -19,6 +19,9 @@ class _DashboardState extends State<Dashboard> {
   int selectedIndex = 0;
   List<AnyMenuItem> selectedCategoryMenu = dummyMenu;
   List<AnyMenuItem> searchedItem = [];
+  ScrollController controller = ScrollController();
+  ScrollController controller2 = ScrollController();
+  double containerHeight = 145;
   bool isSearching = false;
   bool gridLayout = true;
   bool hidePayment = true;
@@ -56,11 +59,11 @@ class _DashboardState extends State<Dashboard> {
               Expanded(
                 child: Container(
                   color: aBackgroundColor,
-                  child: Column(
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      SizedBox(height: aPadding),
-                      _buildHeader(generateMenu),
                       _buildMenuList(),
+                      _buildHeader(generateMenu),
                     ],
                   ),
                 ),
@@ -89,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
 
   double getChildAspectRatio() {
     final height = MediaQuery.of(context).size.height;
-    double childAspectRatio = height / 1.5 / height;
+    double childAspectRatio = height / 1.6 / height;
 
     return childAspectRatio;
   }
@@ -124,20 +127,30 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  Expanded _buildMenuList() {
-    return Expanded(
-      child: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: foodCategories.map((item) {
-            return gridLayout ? _buildGridView() : _buildListView();
-          }).toList()),
+  Widget _buildMenuList() {
+    return TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        children: foodCategories.map((item) {
+          return gridLayout ? _buildGridView() : _buildListView();
+        }).toList()
     );
   }
 
   Container _buildHeader(void generateMenu(int index)) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: aLargerPadding),
-      height: 153,
+      decoration: BoxDecoration(
+          color: aBackgroundColor,
+          boxShadow: [
+            BoxShadow(
+                color: aBackgroundColor,
+                offset: Offset(0, 10),
+                blurRadius: 10,
+                spreadRadius: 5,
+            )
+          ],
+      ),
+      margin: EdgeInsets.fromLTRB(aLargerPadding, aPadding, aLargerPadding, 0),
+      height: containerHeight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -201,6 +214,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           Row(
             mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 foodCategories[selectedIndex],
@@ -208,12 +222,12 @@ class _DashboardState extends State<Dashboard> {
               ),
               Spacer(),
               IconButton(
-                onPressed: () => setState(() => gridLayout = true),
+                onPressed: () => setState(() => gridLayout = !gridLayout),
                 icon: Icon(Icons.apps),
                 color: gridLayout ? aRed : aLightTextColor,
               ),
               IconButton(
-                onPressed: () => setState(() => gridLayout = false),
+                onPressed: () => setState(() => gridLayout = !gridLayout),
                 icon: Icon(Icons.view_list),
                 color: !gridLayout ? aRed : aLightTextColor,
               ),
@@ -225,9 +239,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Container _buildGridView() {
-    final controller = ScrollController();
     return Container(
-      padding: EdgeInsets.only(right: 10),
+      padding: EdgeInsets.only(top: containerHeight, right: 10),
       height: double.infinity,
       color: aBackgroundColor,
       child: CupertinoScrollbar(
@@ -235,7 +248,7 @@ class _DashboardState extends State<Dashboard> {
         isAlwaysShown: true,
         child: GridView(
           controller: controller,
-          padding: EdgeInsets.only(left: aLargerPadding, right: aLargerPadding / 2 + 5,),
+          padding: EdgeInsets.only(top: aLargerPadding, left: aLargerPadding, right: aLargerPadding / 2 + 5,),
           shrinkWrap: true,
           physics: BouncingScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -254,15 +267,20 @@ class _DashboardState extends State<Dashboard> {
 
   Container _buildListView() {
     return Container(
+      padding: EdgeInsets.only(top: containerHeight, right: 10),
       height: double.infinity,
       color: aBackgroundColor,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: aLargerPadding),
-        shrinkWrap: true,
-        physics: BouncingScrollPhysics(),
-        children: selectedCategoryMenu.map((item) {
-          return AnyMenuListFlutter(item: item);
-        }).toList(),
+      child: CupertinoScrollbar(
+        controller: controller2,
+        isAlwaysShown: true,
+        child: ListView(
+          padding: EdgeInsets.only(left: aLargerPadding, top: aLargerPadding, right: aLargerPadding / 2 + 5),
+          shrinkWrap: true,
+          physics: BouncingScrollPhysics(),
+          children: selectedCategoryMenu.map((item) {
+            return AnyMenuListFlutter(item: item);
+          }).toList(),
+        ),
       ),
     );
   }
@@ -304,53 +322,51 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
-  Expanded _buildListAndExpandButton() {
-    return Expanded(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          ListView(
-            padding: EdgeInsets.symmetric(horizontal: aPadding),
-            physics: BouncingScrollPhysics(),
-            children: dummyBilling.map((item) {
-              return Parent(
-                gesture: Gestures()..onTap(() => getPaymentInfo()),
-                child: Column(
-                  children: [
-                    AnyBillingChild(
-                      item: item,
-                      refresh: getPaymentInfo,
-                    ),
-                    Divider(
-                      thickness: 1,
-                      color: aBorderColor,
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-          Positioned(
-            bottom: 0,
-            child: Parent(
-              gesture: Gestures()
-                ..onTap(() => setState(() => hidePayment = !hidePayment)),
-              style: ParentStyle()
-                ..width(30)
-                ..height(20)
-                ..borderRadius(topLeft: 5, topRight: 5)
-                ..background.color(aRed)
-                ..alignmentContent.center(),
-              child: Icon(
-                hidePayment
-                    ? Icons.keyboard_arrow_up
-                    : Icons.keyboard_arrow_down,
-                color: Colors.white,
+  Widget _buildListAndExpandButton() {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ListView(
+          padding: EdgeInsets.symmetric(horizontal: aPadding),
+          physics: BouncingScrollPhysics(),
+          children: dummyBilling.map((item) {
+            return Parent(
+              gesture: Gestures()..onTap(() => getPaymentInfo()),
+              child: Column(
+                children: [
+                  AnyBillingChild(
+                    item: item,
+                    refresh: getPaymentInfo,
+                  ),
+                  Divider(
+                    thickness: 1,
+                    color: aBorderColor,
+                  ),
+                ],
               ),
+            );
+          }).toList(),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Parent(
+            gesture: Gestures()
+              ..onTap(() => setState(() => hidePayment = !hidePayment)),
+            style: ParentStyle()
+              ..width(30)
+              ..height(20)
+              ..borderRadius(topLeft: 5, topRight: 5)
+              ..background.color(aRed)
+              ..alignmentContent.center(),
+            child: Icon(
+              hidePayment
+                  ? Icons.keyboard_arrow_up
+                  : Icons.keyboard_arrow_down,
+              color: Colors.white,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -614,5 +630,11 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

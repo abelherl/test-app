@@ -10,7 +10,7 @@ const Color aDarkTextColor = const Color(0xFF222C45);
 //const Color aLightTextColor = const Color(0xFF929EB5);
 const Color aLightTextColor = const Color(0xFF8F9BB3);
 const Color aInactiveColor = const Color(0xFFEDF1F7);
-const Color aShadowColor = const Color(0x55000000);
+const Color aShadowColor = const Color(0x15333333);
 const Color aBorderColor = const Color(0xFFDDDDDD);
 
 const Color aRed = const Color(0xFFD63B30);
@@ -76,7 +76,7 @@ const aButtonTextStyle = TextStyle(
 const aErrorStyle = TextStyle(
   color: aRed,
   fontFamily: aFontFamily,
-  fontWeight: FontWeight.w400,
+  fontWeight: FontWeight.w500,
   decoration: TextDecoration.none,
   fontSize: 14,
 );
