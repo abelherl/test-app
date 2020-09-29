@@ -29,5 +29,17 @@
     {
       "id": "DUMMY789"
     }
+  ],
+  "resto": [
+    {
+      "id": 1,
+      "name": "Dinoyo Restaurant",
+      "address": "Tlogomas Street 56, Malang East Java"
+    },
+    {
+      "id": 2,
+      "name": "Ijen Restaurant",
+      "address": "Ijen Street 9, Malang East Java"
+    }
   ]
 }
