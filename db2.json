@@ -1,0 +1,69 @@
+{
+  "user": [
+    {
+      "nik": "111111222222",
+      "name": "Bob Ross",
+      "image": "https://www.biography.com/.image/t_share/MTIwNjA4NjMzOTU5NTgxMTk2/bob-ross-9464216-1-402.jpg",
+      "pin": "111222",
+      "cart": null
+    },
+    {
+      "nik": "333333444444",
+      "name": "Byan Beynolds",
+      "image": "https://cdns.klimg.com/resized/476x/p/deadpool-bbx1.jpg",
+      "pin": "333444",
+      "cart": null
+    }
+  ],
+  "product": [
+    {
+      "id": "1",
+      "name": "Coca Cola Can 350ml",
+      "category": "drink",
+      "price": 6500,
+      "imageUrl": "https://cdn-2.tstatic.net/pontianak/foto/bank/images/coca-cola-stop-iklan-ke-facebook-dan-instagram.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Premium Double Beef Patty Burger",
+      "category": "lunch",
+      "price": 60000,
+      "imageUrl": "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F20%2F2017%2F03%2F24k-burger.jpg&q=85"
+    },
+    {
+      "id": "3",
+      "name": "AQUA Mineral Water 550ml",
+      "category": "drink",
+      "price": 5000,
+      "imageUrl": "https://media9.co.id/wp-content/uploads/2019/06/aqua2.jpg"
+    },
+    {
+      "id": "4",
+      "name": "Sarimi Rebus",
+      "category": "lunch",
+      "price": 5500,
+      "imageUrl": "https://www.foodierate.com/uploads/fullsize/TGuHOpAPnHAf_indomie%20saos%20telor%20asin-min.jpg"
+    },
+    {
+      "id": "5",
+      "name": "3 Mochi Random Variants",
+      "category": "ice cream",
+      "price": 12500,
+      "imageUrl": "https://i.imgur.com/6SBMAwj.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Jumbo Special Chicken Katsudon",
+      "category": "lunch",
+      "price": 17500,
+      "imageUrl": "https://www.justonecookbook.com/wp-content/uploads/2019/10/Chicken-Katsu-0532-I-1-480x270.jpg"
+    },
+    {
+      "id": "7",
+      "name": "Sari Roti Sandwich Rasa Krim Keju",
+      "category": "bread",
+      "price": 5000,
+      "imageUrl": "https://akcdn.detik.net.id/visual/2016/06/01/1ca71fb4-3c48-4fb2-9c3f-15e13ac6d0b7_169.jpg?w=650"
+    }
+  ]
+}
